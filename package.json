@@ -1,0 +1,25 @@
+{
+  "name": "scr_automation_api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/responsible-gold/scr_automation_api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/responsible-gold/scr_automation_api/issues"
+  },
+  "homepage": "https://github.com/responsible-gold/scr_automation_api#readme",
+  "devDependencies": {
+    "chai": "^4.3.6",
+    "mocha": "^10.0.0",
+    "supertest": "^6.2.4"
+  },
+  "type": "module"
+}
