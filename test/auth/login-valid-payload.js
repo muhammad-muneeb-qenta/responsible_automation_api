@@ -1,8 +1,8 @@
 const supertest = require('supertest')
 var assert = require('chai').assert;
-var constants = require ('../../utility/constants.js')
+var config = require ('../../config.json')
 
-const request = supertest(constants.BASE_URL);
+const request = supertest(config['BASE_URL']);
 describe ('', ()=>{
 
     it('should give message "Unable to verify Authorization Header"', async ()=>{

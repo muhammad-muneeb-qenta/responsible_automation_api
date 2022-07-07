@@ -1,8 +1,8 @@
 require('should');
 const supertest = require('supertest')
-var constants = require ('../../utility/constants.js')
+var config = require ('../../config.json')
 
-const request = supertest(constants.BASE_URL);
+const request = supertest(config['BASE_URL']);
 describe ('', ()=>{
 
     it('should give message "email or password is not valid', async ()=>{

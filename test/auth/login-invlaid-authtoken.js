@@ -1,9 +1,8 @@
 require('should');
 const supertest = require('supertest')
-var assert = require('chai').assert;
-var constants = require ('../../utility/constants.js')
+var config = require ('../../config.json')
 
-const request = supertest(constants.BASE_URL);
+const request = supertest(config['BASE_URL']);
 describe ('', ()=>{
 
     it('Unable to verify Authorization Header', async ()=>{
@@ -22,10 +21,6 @@ describe ('', ()=>{
         .expect(401)
         .set('Authorization', `Bearer ${TOKEN}`)
         .send(TEST_REQUEST)
-            // assert.equal(res.body.error, EXPECTED_RESPONSE.error);
-            // assert.equal(res.body.message, EXPECTED_RESPONSE.message);
-            // assert.equal(res.body.detail, EXPECTED_RESPONSE.detail);
-            // assert.equal(res.body, EXPECTED_RESPONSE)
             res.body.should.containEql(EXPECTED_RESPONSE);
     });
 });
