@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --timeout 10000"
+    "test": "mocha --timeout 500000"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/responsible-gold/scr_automation_api#readme",
   "devDependencies": {
+    "bluebird": "^3.7.2",
     "chai": "^4.3.6",
     "mocha": "^10.0.0",
     "should": "^13.2.3",

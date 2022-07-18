@@ -8,12 +8,7 @@ describe ('', ()=>{
         const TEST_REQUEST = {
             username: "hussnain.nadeem+nodev@emergenttech.com",
             password: "@Welcome1234"
-        };
-        const EXPECTED_RESPONSE = {
-            grant_type: "password",
-            statusCode: "201",
-        };
-    
+        };   
         const res = await request
         .post('/2.0/oauth/token')
         .send(TEST_REQUEST)
