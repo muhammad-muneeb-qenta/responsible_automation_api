@@ -1,12 +1,12 @@
 require('should');
-const supertest = require('supertest')
-var config = require ('../../config.json')
-
+const supertest = require('supertest');
+const config = require ('../../config.json');
 const request = supertest(config['BASE_URL']);
-describe ('', ()=>{
 
-    it('should give message "email or password is not valid', async ()=>{
-        const TEST_REQUEST = {
+module.exports = auth;
+
+async function auth() {
+    const TEST_REQUEST = {
             username: "hussnain.nadeem+nodev@emergenttech.com",
             password: "@Welcome1234@123"
         };
@@ -20,5 +20,4 @@ describe ('', ()=>{
         .post('/2.0/oauth/token')
         .send(TEST_REQUEST)
             res.body.should.containEql(EXPECTED_RESPONSE);
-    });
-});
+}

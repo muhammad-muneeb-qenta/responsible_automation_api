@@ -1,12 +1,10 @@
 const supertest = require('supertest');
-var assert = require('chai').assert;
-var config = require ('../../config.json');
+const config = require ('../../config.json');
+
 const request = supertest(config['BASE_URL']);
-
-module.exports = auth;
-
-async function auth() {
-
+describe ('', ()=>{
+    var ID_TOKEN;
+    it.only('', async ()=>{
         const TEST_REQUEST = {
             username: "hussnain.nadeem+nodev@emergenttech.com",
             password: "@Welcome1234"
@@ -19,7 +17,7 @@ async function auth() {
         const res = await request
         .post('/2.0/oauth/token')
         .send(TEST_REQUEST)
-            assert.equal(res.statusCode, EXPECTED_RESPONSE.statusCode)
-            assert.equal(res.body.grant_type, EXPECTED_RESPONSE.grant_type)
-            assert.equal(res.body.email, TEST_REQUEST.username )
-};
+            ID_TOKEN = res.body.id_token;
+            return ID_TOKEN;
+    });
+});

@@ -1,24 +1,18 @@
 require('should');
 const supertest = require('supertest');
-var config = require ('../../config.json');
+const config = require ('../../config.json');
 const request = supertest(config['BASE_URL']);
 
-module.exports = auth;
+module.exports = fetchUser;
 
-async function auth() {
+async function fetchUser(){
         const TOKEN = 'abc123';
-        const TEST_REQUEST = {
-            username: "hussnain.nadeem+nodev@emergenttech.com",
-            password: "@Welcome1234@123"
-        };
         const EXPECTED_RESPONSE = {
             "reason": "Unable to verify Authorization Header"
         };
-    
         const res = await request
-        .post('/2.0/oauth/token')
+        .get('/2.0/user')
+        .set('Authorization', `Bearer${TOKEN}`)
         .expect(401)
-        .set('Authorization', `Bearer ${TOKEN}`)
-        .send(TEST_REQUEST)
             res.body.should.containEql(EXPECTED_RESPONSE);
 };

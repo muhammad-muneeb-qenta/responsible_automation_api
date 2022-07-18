@@ -1,12 +1,15 @@
 describe('POST | Auth Endpoints', function() {
 
     it('should give valid token', function() {
-        return require('./login-valid-payload.js');
+        var auth = require('./login-valid-payload.js');
+        return auth();
     });
     it('should give message "email or password is not valid"', function() {
-        return require('./login-bad-password.js');
+        var auth = require('./login-bad-password.js');
+        return auth();
     });
     it('should give message "Unable to verify Authorization Header"', function() {
-        return require('./login-invlaid-authtoken');
+        var auth = require('./login-invlaid-authtoken');
+        return auth();
     });
 });

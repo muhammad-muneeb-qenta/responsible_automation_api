@@ -1,1 +1,3 @@
 require('./auth/index.test.js');
+require('./users/index.test.js');
+//require('./documents/index.test.js');
