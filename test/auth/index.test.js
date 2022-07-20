@@ -12,4 +12,8 @@ describe('POST | Auth Endpoints', function() {
         var auth = require('./login-invlaid-authtoken');
         return auth();
     });
+    it('should give message "Missing Properties"', function() {
+        var auth = require('./login-without-payload');
+        return auth();
+    });
 });

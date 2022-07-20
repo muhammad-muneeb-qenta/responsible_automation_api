@@ -23,5 +23,8 @@ var seed;
     //     var fetchReportData = require('./fetch-reportData-with-invalid-orgID');
     //     return fetchReportData(seed.token_id);
     // });
-
+    it('Should show Orgization data', function(){
+        var fetchOrgData = require('../organization/get-organization-data.js');
+        return fetchOrgData(seed.token_id, seed.org_id);
+    }); 
 });

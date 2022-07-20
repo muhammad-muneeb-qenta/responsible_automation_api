@@ -1,26 +1,29 @@
-require ('should');
-const { assert } = require('chai');
-const supertest =  require ('supertest');
+require('should');
+const supertest = require('supertest');
 const config = require ('../../config.json');
+
 const request = supertest(config['BASE_URL'])
 
+module.exports = createAnOrg;
 
-module.exports = fetchReportData;
+async function createAnOrg (user_id, orgType) {
 
-async function fetchReportData(org_id) {
-   
+    const NUM = Math.floor(Math.random() * 100);
     const TOKEN = "abc123";
-    const ORG_ID = org_id;
+
+    const TEST_REQUEST = {
+        "name": orgType+"API"+NUM,
+        "type": orgType,
+    };
     const EXPECTED_RESPONSE = {
         "reason": "Unable to verify Authorization Header"
-    }
-    
+    };
     return await request 
-        .get(`/2.0/organization/${ORG_ID}/report`)
+        .post(`/2.0/organization`)
         .set('Authorization', `Bearer ${TOKEN}`)
+        .send(TEST_REQUEST)
         .expect(401)
         .then((resp)=>{
-            assert.ok(resp);
             resp.body.should.containEql(EXPECTED_RESPONSE);
-        })
+        });
 };
