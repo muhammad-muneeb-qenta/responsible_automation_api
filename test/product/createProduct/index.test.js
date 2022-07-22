@@ -16,6 +16,36 @@ let seed;
         var createProduct = require('./create-product-without-auth');
         return createProduct(seed.company_prefix, "Doré");
     });
+
+    it('Should be able to create Product without Asset Schema', function(){
+        var createProduct = require('./create-product-without-assetSchema.js');
+        return createProduct(seed.token_id, seed.company_prefix, "Doré");
+    });
+    it('Should be able to create Product without Shared properties', function(){
+        var createProduct = require('./create-product-without-shared-properties.js');
+        return createProduct(seed.token_id, seed.company_prefix, "Doré");
+    });
+    it('Should give message "invalid property"', function(){
+        var createProduct = require('./create-product-with-itemRef-moreThen-6digit.js');
+        return createProduct(seed.token_id, seed.company_prefix, "Doré");
+    });
+    it('Should give message "Duplicate Entity"', function(){
+        var createProduct = require('./create-product-with-duplicate-itemRef.js');
+        return createProduct(seed.token_id, seed.company_prefix, "Doré");
+    });
+
+describe ('Bullion Negative Test', function(){
+    before (function(){
+        return exec.requiredDataForRefiner().then((data)=>{
+            seed = data;
+        })
+    });
+    it('Should give message "Net Weight is missing"', function(){
+        var createProduct = require('./create-product-bullion-without-netWeight.js');
+        return createProduct(seed.token_id, seed.company_prefix, "Bullion");
+    });
+});
+
 describe('Miner', function () {
 
     before (function(){
