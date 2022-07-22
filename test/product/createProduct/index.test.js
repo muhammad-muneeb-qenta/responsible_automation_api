@@ -2,7 +2,20 @@ var exec = require ('./before.test.js')
 
 describe('Product POST end point', function () {
 let seed;
+    before (function(){
+        return exec.requiredDataForMiner().then((data)=>{
+            seed = data;
+        })
+    }) 
+    it('Should give "Unable to verify Authorization Header"', function(){
+        var createProduct = require('./create-product-with-inValid-Auth.js');
+        return createProduct(seed.company_prefix, "Doré");
+    });
 
+    it('Should give "Not Authorized"', function(){
+        var createProduct = require('./create-product-without-auth');
+        return createProduct(seed.company_prefix, "Doré");
+    });
 describe('Miner', function () {
 
     before (function(){
