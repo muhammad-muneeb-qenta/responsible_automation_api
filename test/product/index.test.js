@@ -35,4 +35,8 @@ let seed;
         var getProductList = require('./get-product-using-inValid-searchValue.js');
         return getProductList(seed.token_id, seed.org_id);
     });
+    it('Should run Product Overall Flow (Create-Restore-Retire)', function(){
+        var getProductList = require('./create-retire-restore-product.js');
+        return getProductList(seed.token_id, seed.org_id, 'Sample');
+    });
 });
