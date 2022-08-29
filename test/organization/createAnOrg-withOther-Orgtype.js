@@ -11,7 +11,7 @@ async function createAnOrg (orgType) {
 
     const TEST_REQUEST1 = {
             username: "rgsctest+ac@gmail.com",
-            password: "@Welcome1234"
+            password: "@Welcome12345"
         };
         var response1 = await request
         .post(`/2.0/oauth/token`)
@@ -21,7 +21,7 @@ async function createAnOrg (orgType) {
     const TEST_REQUEST2 = {
         "invited_members":
         [{   
-            "email":`rgsctest+API`+NUM+`@gmail.com`,
+            "email":`rgsctest+api`+NUM+`@gmail.com`,
             "role":"admin"
         }],
         "name": orgType+"API"+NUM,

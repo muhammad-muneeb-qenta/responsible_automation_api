@@ -14,7 +14,7 @@ async function createAnOrg (id_token, user_id, orgType) {
     const TEST_REQUEST = {
     "invited_members":
         [{   
-            "email":`rgsctest+API`+NUM+`@gmail.com`,
+            "email":`rgsctest+api`+NUM+`@gmail.com`,
             "role":"admin"
         }],
     "name": orgType+"API"+NUM,
