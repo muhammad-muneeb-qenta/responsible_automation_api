@@ -27,3 +27,6 @@ require('./documents/getAccreditationAndCategories/index.test.js');
 
 // Tests for POST ESG Accreditation Data and Categories
 require('./documents/postAccreditationAndcategories/index.test.js');
+
+// Tests for User Invitations
+require('./invitations/index.test.js');
