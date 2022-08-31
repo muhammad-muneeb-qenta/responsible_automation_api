@@ -25,4 +25,24 @@ var seed;
         var inviteUserWithInvalidAuth = require('./inviteUserWithInvalidAuth.js');
         return inviteUserWithInvalidAuth(seed.org_id)
     });
+    it('Should be able to Suspend User', function(){
+        var suspenduser = require('./suspendUser.js');
+        return suspenduser(seed.token_id, seed.org_id, seed.user_id)
+    });
+    it('Should not be able to Suspend already suspedned User', function(){
+        var suspendalreadySuspendedUser = require('./suspendalreadySuspendedUser.js');
+        return suspendalreadySuspendedUser(seed.token_id, seed.org_id, seed.user_id)
+    });
+    it('Should be able to Restore User', function(){
+        var restoreUser = require('./restoreUser.js');
+        return restoreUser(seed.token_id, seed.org_id, seed.user_id)
+    });
+    it('Should not be able to restore already restored User', function(){
+        var suspendalreadySuspendedUser = require('./restoreAlreadyRestoredUser.js');
+        return suspendalreadySuspendedUser(seed.token_id, seed.org_id, seed.user_id)
+    });
+    it('Should not be able to suspend loggedin User', function(){
+        var suspendloggedinUser = require('./suspendloggedinUser.js');
+        return suspendloggedinUser(seed.token_id, seed.org_id, seed.user_id_A)
+    });
 });

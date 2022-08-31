@@ -21,9 +21,18 @@ async function requiredData () {
         .set('Authorization', `Bearer ${TOKEN_ID}`)
         .expect(200)
         var ORG_ID = response2.body.organization_ids[0];
+        var USER_ID_A = response2.body.user_id;
+
+        var response3 = await request
+        .get(`/2.0/organization/${ORG_ID}/user`)
+        .set('Authorization', `Bearer ${TOKEN_ID}`)
+        .expect(200)
+        var USER_ID = response3.body.organization.admins[1]._id;
 
         return Bluebird.props({
         token_id: TOKEN_ID,
-        org_id: ORG_ID
+        org_id: ORG_ID,
+        user_id: USER_ID,
+        user_id_A: USER_ID_A
         });
-}
+};
