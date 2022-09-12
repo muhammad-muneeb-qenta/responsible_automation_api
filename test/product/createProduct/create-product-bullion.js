@@ -20,19 +20,13 @@ async function createProduct (id_token, company_prefix, productType) {
 		"type": "object",
 		"required": ["Net Weight (g)"],
 		"properties": {
-			"Net Weight (g)": {
-				"type": "number"
+			"Batch ID": {
+				"type": "string"
 			},
 			"Assay - Au (%)": {
 				"type": "number"
 			},
 			"Assay - Ag (%)": {
-				"type": "number"
-			},
-			"Assay - Pt (%)": {
-				"type": "number"
-			},
-			"Assay - Pd (%)": {
 				"type": "number"
 			},
 			"Assay - Other impurities (%)": {
