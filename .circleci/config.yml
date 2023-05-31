@@ -1,34 +1,35 @@
-
-# This config is equivalent to both the '.circleci/extended/orb-free.yml' and the base '.circleci/config.yml'
 version: 2.1
-
-# Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
-# See: https://circleci.com/docs/2.0/orb-intro/
-orbs:
-  node: circleci/node@4.7
-  browser-tools: circleci/browser-tools@1.1.0
-jobs:
-  test:
+executors:
+  docker-executor:
     docker:
-      - image: cimg/node:lts-browsers
+      - image: circleci/node:14
+
+jobs:
+  build:
+    executor: docker-executor
     steps:
       - checkout
-      # - browser-tools/install-browser-tools
-      - node/install-packages
+
+      - setup_remote_docker:
+          version: 20.10.7
+
       - run:
-          command: npm run test
-      - store_test_results:
-          path: ././tests_output
-      - run:
-          name: Check test results
+          name: Build Docker image
           command: |
-            if [ $? -eq 0 ]; then
-              echo "Tests passed, proceeding with code upload"
-            else
-              echo "Tests failed, aborting build"
-              exit 1
-            fi
-workflows:
-  e2e-test:
-    jobs:
-      - test
+            docker build -t myapp:latest .
+          
+      - run:
+          name: Run tests in Docker container
+          command: |
+            docker run --name myapp-container myapp:latest npm test
+
+      - run:
+          name: Publish test results
+          command: |
+            docker cp myapp-container:/app/test-results.xml .
+
+      - store_test_results:
+          path: ./test-results.xml
+
+      - store_artifacts:
+          path: ./test-results.xml
