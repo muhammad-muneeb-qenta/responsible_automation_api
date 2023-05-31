@@ -23,7 +23,7 @@ jobs:
           command: |
             docker run --name myapp-container myapp:latest npm test
       - store_test_results:
-          path: ../test/test-results.xml
+          path: ././tests_output
 
       - store_artifacts:
-          path: ../test/test-results.xml
+          path: ././tests_output
