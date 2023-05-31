@@ -2,7 +2,7 @@ version: 2.1
 executors:
   docker-executor:
     docker:
-      - image: circleci/node:14
+      - image: circleci/node:18
 
 jobs:
   build:
@@ -22,12 +22,6 @@ jobs:
           name: Run tests in Docker container
           command: |
             docker run --name myapp-container myapp:latest npm test
-
-      - run:
-          name: Publish test results
-          command: |
-            docker cp myapp-container:/app/test/test-results.xml .
-
       - store_test_results:
           path: ./test-results.xml
 
