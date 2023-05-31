@@ -10,24 +10,25 @@ orbs:
 jobs:
   test:
     docker:
-      - image: cimg/node:lts-browsers
+      - image: circleci/node:14
     steps:
       - checkout
       # - browser-tools/install-browser-tools
-      - node/install-packages
+      # - node/install-packages
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package-lock.json" }}
+            # Add more cache keys if necessary
       - run:
           command: npm run test
       - store_test_results:
           path: ././tests_output
       - run:
-          name: Check test results
-          command: |
-            if [ $? -eq 0 ]; then
-              echo "Tests passed, proceeding with code upload"
-            else
-              echo "Tests failed, aborting build"
-              exit 1
-            fi
+          name: Build Docker Image
+          command: docker build -t my-node-app .
+     - run:
+          name: Run Docker Container
+          command: docker run my-node-app
 workflows:
   api-test:
     jobs:
