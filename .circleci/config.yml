@@ -5,31 +5,30 @@ version: 2.1
 # Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
 # See: https://circleci.com/docs/2.0/orb-intro/
 orbs:
-   node: circleci/node@4.7.0
-  heroku: circleci/heroku@1.2.6
+  node: circleci/node@4.7
+  browser-tools: circleci/browser-tools@1.1.0
 jobs:
   test:
     docker:
-      - image: circleci/node:18
+      - image: cimg/node:lts-browsers
     steps:
       - checkout
       # - browser-tools/install-browser-tools
-      # - node/install-packages
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package-lock.json" }}
-            # Add more cache keys if necessary
+      - node/install-packages
       - run:
           command: npm run test
       - store_test_results:
           path: ././tests_output
       - run:
-          name: Build Docker Image
-          command: docker build -t my-node-app .
-     - run:
-          name: Run Docker Container
-          command: docker run my-node-app
+          name: Check test results
+          command: |
+            if [ $? -eq 0 ]; then
+              echo "Tests passed, proceeding with code upload"
+            else
+              echo "Tests failed, aborting build"
+              exit 1
+            fi
 workflows:
-  api-test:
+  e2e-test:
     jobs:
       - test
