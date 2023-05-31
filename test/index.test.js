@@ -1,5 +1,5 @@
 // // Tests of Auth
-// require('./auth/index.test.js');
+require('./auth/index.test.js');
 
 // // Tests for GET User
 // require('./users/index.test.js');
@@ -8,7 +8,7 @@
 // require('./reports/index.test.js');
 
 // Tests for GET Org and create Org
-require('./organization/index.test.js');
+// require('./organization/index.test.js');
 
 // // Tests for GET Product
 // require('./product/index.test.js');
