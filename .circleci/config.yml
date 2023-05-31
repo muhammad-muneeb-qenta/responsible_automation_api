@@ -13,7 +13,7 @@ jobs:
       - image: cimg/node:lts-browsers
     steps:
       - checkout
-      - browser-tools/install-browser-tools
+      # - browser-tools/install-browser-tools
       - node/install-packages
       - run:
           command: npm run test
