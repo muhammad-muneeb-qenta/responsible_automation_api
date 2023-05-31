@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --timeout 500000"
+    "test": "mocha --timeout 500000",
+    "build": "webpack --mode production"
   },
   "repository": {
     "type": "git",
