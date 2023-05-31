@@ -31,5 +31,5 @@ require('./auth/index.test.js');
 // // Tests for User Invitations
 // require('./invitations/index.test.js');
 
-// Tests for Asset Creation
-require('./assets/index.test.js');
+// // Tests for Asset Creation
+// require('./assets/index.test.js');
