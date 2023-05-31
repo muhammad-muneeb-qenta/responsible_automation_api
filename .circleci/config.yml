@@ -13,6 +13,8 @@ jobs:
       - run:
           command: npm run test
           name: Run tests
+      - store_test_results:
+          path: ././tests_output
       # - run:
           # command: npm run build
           # name: Build app
@@ -20,15 +22,15 @@ jobs:
           root: ~/project
           paths:
             - .
-
-  deploy: # this can be any name you choose
-    executor: heroku/default
-    steps:
-      - attach_workspace:
-          at: ~/project
-      - heroku/deploy-via-git:
-          force: true # force push when pushing to the heroku remote, see: https://devcenter.heroku.com/articles/git
-
+      - run:
+          name: Check test results
+          command: |
+            if [ $? -eq 0 ]; then
+              echo "Tests passed, proceeding with code upload"
+            else
+              echo "Tests failed, aborting build"
+              exit 1
+            fi
 workflows:
   test_my_app:
     jobs:
