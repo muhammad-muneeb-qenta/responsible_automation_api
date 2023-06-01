@@ -2,10 +2,10 @@
 require('./auth/index.test.js');
 
 // // Tests for GET User
-// require('./users/index.test.js');
+require('./users/index.test.js');
 
 // // Tests for GET Report EndPoint
-// require('./reports/index.test.js');
+require('./reports/index.test.js');
 
 // Tests for GET Org and create Org
 // require('./organization/index.test.js');
@@ -32,4 +32,4 @@ require('./auth/index.test.js');
 // require('./invitations/index.test.js');
 
 // Tests for Asset Creation
-require('./assets/index.test.js');
+// require('./assets/index.test.js');
