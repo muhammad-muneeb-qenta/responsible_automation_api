@@ -13,7 +13,7 @@ jobs:
       - run:
           name: Build Docker image
           command: |
-            docker build -t myapp:latest .
+            docker build -t myapp:latest.
       - run:
           name: Run tests in Docker container
           command: |
