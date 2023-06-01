@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="0"
+            failures="1"
+            tests="1">
+
+  <testsuite name="test.login"
+    errors="0" failures="1" hostname="" id="" package="login" skipped="0"
+    tests="1" time="39.76" timestamp="">
+  
+    <testcase name="Search Nightwatch.js and check results" classname="test.login" time="19.88" assertions="2">
+
+      <failure message="Testing if element &lt;h1&gt; is visible in 5000ms - expected &#34;is visible&#34; but got: &#34;element could not be located&#34; (5283ms)">    at DescribeInstance.&lt;anonymous&gt; (C:\Projects\Automation\test\login.js:10:17)</failure>
+
+    
+    </testcase>
+  
+
+  
+
+    
+
+  
+  </testsuite>
+</testsuites>

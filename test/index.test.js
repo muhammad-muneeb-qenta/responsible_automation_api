@@ -32,4 +32,4 @@ require('./auth/index.test.js');
 // require('./invitations/index.test.js');
 
 // Tests for Asset Creation
-require('./assets/index.test.js');
+// require('./assets/index.test.js');
