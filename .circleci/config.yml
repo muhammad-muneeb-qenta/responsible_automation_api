@@ -22,6 +22,15 @@ jobs:
           path: ././tests_output
       - store_artifacts:
           path: ././tests_output
+      - run:
+          name: Check test results
+          command: |
+            if [ $? -eq 0 ]; then
+              echo "Tests passed, proceeding with code upload"
+            else
+              echo "Tests failed, aborting build"
+              exit 1
+            fi
 # workflows:
 #   version: 2
 #   thebuild:
