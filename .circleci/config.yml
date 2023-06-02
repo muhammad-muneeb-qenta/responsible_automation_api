@@ -19,6 +19,9 @@ jobs:
           command: |
             docker run --name myapp-container myapp:latest npm test -- --runInBand
             # docker run --name myapp-container myapp:latest npm test
+      - run: # print the name of the branch we're on
+          name: "What branch am I on?"
+          command: echo ${CIRCLE_BRANCH}
       - store_test_results:
           path: ././tests_output
       - store_artifacts:
