@@ -1,5 +1,5 @@
-// // // Tests of Auth
-// require('./auth/index.test.js');
+// // Tests of Auth
+require('./auth/index.test.js');
 
 // // // Tests for GET User
 // require('./users/index.test.js');
@@ -8,11 +8,11 @@
 // require('./reports/index.test.js');
 
 // Tests for GET Org and create Org
-require('./organization/index.test.js');
+// require('./organization/index.test.js');
 const branchName = process.env.CIRCLE_BRANCH;
 
 // Print the branch name
-console.log(`Current branch: ${branchName}`);
+console.log(`Current branch: ${process.env}`);
 // // Tests for GET Product
 // require('./product/index.test.js');
 
