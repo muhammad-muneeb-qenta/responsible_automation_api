@@ -9,7 +9,10 @@
 
 // Tests for GET Org and create Org
 require('./organization/index.test.js');
+const branchName = process.env.CIRCLE_BRANCH;
 
+// Print the branch name
+console.log(`Current branch: ${branchName}`);
 // // Tests for GET Product
 // require('./product/index.test.js');
 
