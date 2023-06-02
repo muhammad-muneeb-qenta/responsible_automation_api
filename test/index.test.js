@@ -12,7 +12,7 @@ require('./auth/index.test.js');
 const branchName = process.env.CIRCLE_BRANCH;
 
 // Print the branch name
-console.log(`Current branch: ${process.env}`);
+console.log(`Current branch: echo ${CIRCLE_BRANCH});
 // // Tests for GET Product
 // require('./product/index.test.js');
 
