@@ -1,184 +1,56 @@
-defaults: &defaults
-  working_directory: ~/scr-components
-  docker:
-    - image: circleci/node:8
-
-version: 2
-jobs:
-
-  build:
-    <<: *defaults
-    steps:
-      - checkout
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-          name: GIt HTTPS update
-          command: git config --global url."https://".insteadOf git://
-      - run:
-          name: Authenticate with registry
-          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
-      - run: if [ ! -d ~/scr-components/node_modules ]; then npm install; fi
-      - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - node_modules
-
-  unit-tests:
-    working_directory: ~/scr-components
+version: 2.1
+executors:
+  docker-executor:
     docker:
-      # Primary container
-      - image: circleci/node:8
-      # DB container
-      - image: mongo:3.2.17
-        command: [mongod, --smallfiles]
-    environment:
-      - CC_TEST_REPORTER_ID: d51e6ad7f15f34790b05ef7886e598a50a97fcb39e6ae6625bdb3a55c8ca6630
+      - image: circleci/node:14
+jobs:
+  build:
+    executor: docker-executor
     steps:
       - checkout
-      - attach_workspace:
-          at: ~/scr-components
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+      - setup_remote_docker:
+          version: 20.10.7
       - run:
-          name:  Download cc-test-reporter
+          name: Build Docker image
           command: |
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter
-      - run: npm run build
-      - run: cp ./.circleci/config-circleci.json ./config-local.json
-      - run: node_modules/.bin/forever start -a -l forever.log tools/server.js
-      - run: sleep 10
+            docker build -t myapp:latest .
       - run:
-          name: Run Unit tests & Code Coverage
+          name: Run tests in Docker container
           command: |
-            npm run coverage
-            ./cc-test-reporter format-coverage -t lcov -o tmp/codeclimate.scrcomponents.json ./coverage/lcov.info
-      - persist_to_workspace:
-          root: tmp
-          paths:
-            - codeclimate.scrcomponents.json
+            docker run --name myapp-container myapp:latest npm test -- --runInBand
+            # docker run --name myapp-container myapp:latest npm test
+      - store_test_results:
+          path: ././tests_output
+      - store_artifacts:
+          path: ././tests_output
       - run:
-          name: Upload coverage results to Code Climate
+          name: Check test results
           command: |
-            ./cc-test-reporter sum-coverage tmp/codeclimate.*.json -o tmp/codeclimate.total.json
-            ./cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
-
-  # integration_tests:
-  #   working_directory: ~/scr-components
-  #   docker:
-  #     # Primary container
-  #     - image: circleci/node:8
-  #     # DB container
-  #     - image: mongo:3.2.17
-  #       command: [mongod, --smallfiles]
-  #     # Localstack container
-  #     - image: localstack/localstack:0.12.1
-  #       environment:
-  #         SERVICES: s3
-  #         DEBUG: 1
-  #       entrypoint: bash -c 'mkdir /docker-entrypoint-initaws.d; echo -e "#!/bin/bash\nawslocal s3 mb s3://gold-id-bucket\nawslocal s3 mb s3://document-bucket\n" > /docker-entrypoint-initaws.d/buckets.sh; docker-entrypoint.sh'
-
-  #   steps:
-  #     - checkout
-  #     - attach_workspace:
-  #         at: ~/scr-components
-  #     - restore_cache:
-  #         key: dependency-cache-{{ checksum "package.json" }}
-  #     - run: npm run build
-  #     - run: cp ./.circleci/config-circleci.json ./config-local.json
-  #     - run: node_modules/.bin/forever start -a -l forever.log tools/server.js
-  #     - run: sleep 10
-  #     - run: node_modules/.bin/mocha --bail --timeout 10000 --require babel-core/register --exit integration-tests/index.test.js
-
-  static_tests:
-    <<: *defaults
-    steps:
-      - checkout
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run: npm run lint
-      - run: npm run flow
-
-  deployment:
-    <<: *defaults
-    steps:
-      - checkout
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-          name: GIt HTTPS update
-          command: git config --global url."https://".insteadOf git://
-      - run:
-          name: Authenticate with registry
-          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
-      - run: npm install
-      - run: npm --no-git-tag-version version `npm view @emergenttech/scr-components dist-tags.latest`
-      - run: npm --no-git-tag-version version patch
-      - run: npm publish
- 
-  deployment-release:
-    <<: *defaults
-    steps:
-      - checkout
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-          name: GIt HTTPS update
-          command: git config --global url."https://".insteadOf git://
-      - run:
-          name: Authenticate with registry
-          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
-      - run: npm install
-      - run: npm --no-git-tag-version version `npm view @emergenttech/scr-components dist-tags.release-candidate`
-      - run: npm --no-git-tag-version version patch
-      - run: npm publish --tag release-candidate
-
-  deployment-beta:
-    <<: *defaults
-    steps: 
-      - checkout
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-          name: GIt HTTPS update
-          command: git config --global url."https://".insteadOf git://
-      - run:
-          name: Authenticate with registry
-          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
-      - run: npm install
-      - run: npm --no-git-tag-version version `npm view @emergenttech/scr-components dist-tags.beta`
-      - run: npm --no-git-tag-version version prerelease
-      - run: npm publish --tag beta
-
-workflows:
-  version: 2
-  scr-components-workflow:
-    jobs:
-      - build
-      - static_tests:
-          requires:
-            - build
-      - integration_tests:
-          requires:
-            - static_tests
-      - deployment-beta:
-          requires:
-            - integration_tests
-          filters:
-            branches:
-              only: develop
-      - deployment-release:
-          requires:
-            - static_tests
-            - integration_tests
-          filters:
-            branches:
-              only: release-0.1.0
-      - deployment:
-          requires:
-            - static_tests
-            - integration_tests
-          filters:
-            branches:
-              only: master
+            if [ $? -eq 0 ]; then
+              echo "Tests passed, proceeding with code upload"
+            else
+              echo "Tests failed, aborting build"
+              exit 1
+            fi
+# workflows:
+#   version: 2
+#   thebuild:
+#     jobs:
+#       - build:
+#           filters:
+#             branches:
+#               only: develop
+#       - build_stage:
+#           filters:
+#             branches:
+#               only: master
+#       - hold_deploy_prod:
+#           type: approval
+#           requires:
+#             - build_stage
+#       - build_prod:
+#           requires:
+#             - hold_deploy_prod
+#           filters:
+#             branches:
+#               only: master  
