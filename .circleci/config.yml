@@ -8,7 +8,8 @@ jobs:
           MONGO_INITDB_ROOT_PASSWORD: P%40perpl%40ns786
     steps:
       - checkout
-
+      # Set up Docker environment
+      - setup_remote_docker
       # Set up MongoDB container
       - run:
           name: Start MongoDB container
