@@ -136,7 +136,7 @@ jobs:
 
   deployment-beta:
     <<: *defaults
-    steps:
+    steps: 
       - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}

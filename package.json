@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --timeout 500000",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "lint": "./node_modules/.bin/eslint --ignore-path .gitignore --quiet ./lib ./integration-tests"
   },
   "repository": {
     "type": "git",
