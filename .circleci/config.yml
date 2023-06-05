@@ -8,24 +8,24 @@ executors:
       - image: circleci/node:14
       - image: singerio/mongo:4.2-bionic
         environment:
-          MONGO_INITDB_ROOT_USERNAME: dev
-          MONGO_INITDB_ROOT_PASSWORD: Password1
+          MONGO_INITDB_ROOT_USERNAME: Admin
+          MONGO_INITDB_ROOT_PASSWORD: P%40perpl%40ns786
         command: [mongod, --replSet, rs0, --keyFile, /opt/mongo/keyfile]
   tap_tester_mongo_4_4:
     docker:
       - image: circleci/node:14
       - image: singerio/mongo:4.4-bionic
         environment:
-          MONGO_INITDB_ROOT_USERNAME: dev
-          MONGO_INITDB_ROOT_PASSWORD: Password1
+          MONGO_INITDB_ROOT_USERNAME: Admin
+          MONGO_INITDB_ROOT_PASSWORD: P%40perpl%40ns786
         command: [mongod, --replSet, rs0, --keyFile, /opt/mongo/keyfile]
   tap_tester_mongo_5_0:
     docker:
       - image: circleci/node:14
       - image: singerio/mongo:5.0
         environment:
-          MONGO_INITDB_ROOT_USERNAME: dev
-          MONGO_INITDB_ROOT_PASSWORD: Password1
+          MONGO_INITDB_ROOT_USERNAME: Admin
+          MONGO_INITDB_ROOT_PASSWORD: P%40perpl%40ns786
         command: [mongod, --replSet, rs0, --keyFile, /opt/mongo/keyfile]
 
 jobs:
