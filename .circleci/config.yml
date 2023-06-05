@@ -1,44 +1,19 @@
-# JavaScript Node CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
-version: 2
+version: 2.1
+
 jobs:
   build:
     docker:
-      # specify the version you desire here
-      - image: circleci/node:13.0.1
-      - image: mongo:4.4.20
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
-
-    working_directory: ~/repo
-
+      - image: cimg/ruby:2.7.1-node
+        auth:
+          username: Admin
+          password: P%40perpl%40ns786 # context / project UI env-var reference
     steps:
       - checkout
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
-      - run: 
-          name: Install Dependencies
-          command: npm install
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-
-      # run tests!
       - run:
-          name: Run Tests
-          command: jest --ci --runInBand --detectOpenHandles --forceExit
-          environment:
-            MONGODB_URL: mongodb://Admin:P%40perpl%40ns786@192.168.30.11:26004/develop?authSource=admin&readPreference=primary&directConnection=true&ssl=false
+          name: "Update Node.js and npm"
+          command: |
+            curl -sSL "https://nodejs.org/dist/v11.10.0/node-v11.10.0-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v11.10.0-linux-x64/bin/node
+            curl https://www.npmjs.com/install.sh | sudo bash
+      - run:
+          name: Check current version of node
+          command: node -v
