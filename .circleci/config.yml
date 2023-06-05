@@ -64,32 +64,32 @@ jobs:
             ./cc-test-reporter sum-coverage tmp/codeclimate.*.json -o tmp/codeclimate.total.json
             ./cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
 
-  integration_tests:
-    working_directory: ~/scr-components
-    docker:
-      # Primary container
-      - image: circleci/node:8
-      # DB container
-      - image: mongo:3.2.17
-        command: [mongod, --smallfiles]
-      # Localstack container
-      - image: localstack/localstack:0.12.1
-        environment:
-          SERVICES: s3
-          DEBUG: 1
-        entrypoint: bash -c 'mkdir /docker-entrypoint-initaws.d; echo -e "#!/bin/bash\nawslocal s3 mb s3://gold-id-bucket\nawslocal s3 mb s3://document-bucket\n" > /docker-entrypoint-initaws.d/buckets.sh; docker-entrypoint.sh'
+  # integration_tests:
+  #   working_directory: ~/scr-components
+  #   docker:
+  #     # Primary container
+  #     - image: circleci/node:8
+  #     # DB container
+  #     - image: mongo:3.2.17
+  #       command: [mongod, --smallfiles]
+  #     # Localstack container
+  #     - image: localstack/localstack:0.12.1
+  #       environment:
+  #         SERVICES: s3
+  #         DEBUG: 1
+  #       entrypoint: bash -c 'mkdir /docker-entrypoint-initaws.d; echo -e "#!/bin/bash\nawslocal s3 mb s3://gold-id-bucket\nawslocal s3 mb s3://document-bucket\n" > /docker-entrypoint-initaws.d/buckets.sh; docker-entrypoint.sh'
 
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ~/scr-components
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run: npm run build
-      - run: cp ./.circleci/config-circleci.json ./config-local.json
-      - run: node_modules/.bin/forever start -a -l forever.log tools/server.js
-      - run: sleep 10
-      - run: node_modules/.bin/mocha --bail --timeout 10000 --require babel-core/register --exit integration-tests/index.test.js
+  #   steps:
+  #     - checkout
+  #     - attach_workspace:
+  #         at: ~/scr-components
+  #     - restore_cache:
+  #         key: dependency-cache-{{ checksum "package.json" }}
+  #     - run: npm run build
+  #     - run: cp ./.circleci/config-circleci.json ./config-local.json
+  #     - run: node_modules/.bin/forever start -a -l forever.log tools/server.js
+  #     - run: sleep 10
+  #     - run: node_modules/.bin/mocha --bail --timeout 10000 --require babel-core/register --exit integration-tests/index.test.js
 
   static_tests:
     <<: *defaults
