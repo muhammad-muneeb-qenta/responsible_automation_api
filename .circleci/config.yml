@@ -13,7 +13,7 @@ jobs:
       - run:
           name: Start MongoDB container
           command: |
-            docker run -d --name mongo-db -e MONGO_INITDB_ROOT_USERNAME=$Admin -e MONGO_INITDB_ROOT_PASSWORD=$P%40perpl%40ns786 -p 192.168.30.11:26004 mongo:latest
+            docker run -d --name mongo-db -e MONGO_INITDB_ROOT_USERNAME=$Admin -e MONGO_INITDB_ROOT_PASSWORD=$P%40perpl%40ns786 -p 192.168.30.11:26004:27017 mongo:latest
 
       # Set up Node.js dependencies
       - run:
