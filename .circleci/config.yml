@@ -3,57 +3,36 @@ executors:
   docker-executor:
     docker:
       - image: circleci/node:14
+
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydb
+
 jobs:
   build:
     executor: docker-executor
     steps:
       - checkout
+
       - setup_remote_docker:
           version: 20.10.7
+
       - run:
           name: Build Docker image
           command: |
             docker build -t myapp:latest .
+
       - run:
           name: Run tests in Docker container
           command: |
-            docker run --name myapp-container myapp:latest npm test -- --runInBand
-            # docker run --name myapp-container myapp:latest npm test
-      - run: # print the name of the branch we're on
-          name: "What branch am I on?"
-          command: echo ${CIRCLE_BRANCH}
+            docker run --name myapp-container -e DB_HOST=postgres -e DB_PORT=5432 myapp:latest npm test -- --runInBand
+
       - store_test_results:
-          path: ././tests_output
+          path: ./test-results.xml
+
       - store_artifacts:
-          path: ././tests_output
-      - run:
-          name: Check test results
-          command: |
-            if [ $? -eq 0 ]; then
-              echo "Tests passed, proceeding with code upload"
-            else
-              echo "Tests failed, aborting build"
-              exit 1
-            fi
-# workflows:
-#   version: 2
-#   thebuild:
-#     jobs:
-#       - build:
-#           filters:
-#             branches:
-#               only: develop
-#       - build_stage:
-#           filters:
-#             branches:
-#               only: master
-#       - hold_deploy_prod:
-#           type: approval
-#           requires:
-#             - build_stage
-#       - build_prod:
-#           requires:
-#             - hold_deploy_prod
-#           filters:
-#             branches:
-#               only: master  
+          path: ./test-results.xml
