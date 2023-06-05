@@ -116,7 +116,7 @@ jobs:
       - run: npm --no-git-tag-version version `npm view @emergenttech/scr-components dist-tags.latest`
       - run: npm --no-git-tag-version version patch
       - run: npm publish
-
+ 
   deployment-release:
     <<: *defaults
     steps:
