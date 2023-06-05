@@ -10,7 +10,7 @@ executors:
         environment:
           MONGO_INITDB_ROOT_USERNAME: Admin
           MONGO_INITDB_ROOT_PASSWORD: P%40perpl%40ns786
-        command: [mongod, --replSet, rs0, --keyFile, /opt/mongo/keyfile]
+        command: [mongod, --replSet, rs0, --keyFile, ././tests_output]
   tap_tester_mongo_4_4:
     docker:
       - image: circleci/node:14
@@ -18,7 +18,7 @@ executors:
         environment:
           MONGO_INITDB_ROOT_USERNAME: Admin
           MONGO_INITDB_ROOT_PASSWORD: P%40perpl%40ns786
-        command: [mongod, --replSet, rs0, --keyFile, /opt/mongo/keyfile]
+        command: [mongod, --replSet, rs0, --keyFile, ././tests_output]
   tap_tester_mongo_5_0:
     docker:
       - image: circleci/node:14
@@ -26,7 +26,7 @@ executors:
         environment:
           MONGO_INITDB_ROOT_USERNAME: Admin
           MONGO_INITDB_ROOT_PASSWORD: P%40perpl%40ns786
-        command: [mongod, --replSet, rs0, --keyFile, /opt/mongo/keyfile]
+        command: [mongod, --replSet, rs0, --keyFile, ././tests_output]
 
 jobs:
   build:
