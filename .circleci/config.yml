@@ -32,7 +32,6 @@ jobs:
             docker run --name myapp-container -e DB_HOST=postgres -e DB_PORT=5432 myapp:latest npm test -- --runInBand
 
       - store_test_results:
-          path: ./test-results.xml
-
+          path: ././tests_output 
       - store_artifacts:
-          path: ./test-results.xml
+          path: ././tests_output
