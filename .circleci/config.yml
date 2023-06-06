@@ -52,14 +52,14 @@ jobs:
               echo "Tests failed, aborting build"
               exit 1
             fi
-workflows:
-  version: 2
-  scr-components-workflow:
-    jobs:
-      - build
-    - integration_tests:
-          requires:
-            - static_tests
+# workflows:
+#   version: 2
+#   scr-components-workflow:
+#     jobs:
+#       - build
+#     - integration_tests:
+#           requires:
+#             - static_tests
 # workflows:
 #   version: 2
 #   thebuild:
