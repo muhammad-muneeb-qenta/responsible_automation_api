@@ -11,8 +11,7 @@ jobs:
   build:
     executor: docker-executor
     steps:
-      - setup_remote_docker:
-          version: 20.10.7
+  
       # - run:
       #     name: MongoDB Install
       #     command: |
@@ -20,7 +19,8 @@ jobs:
       #       echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
       #       sudo apt-get update
       #       sudo apt-get install -y mongodb-org-shell
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 20.10.7
       - run:
           name: Waiting for Mongo
           command: dockerize -wait tcp://localhost:27017 -timeout 1m
