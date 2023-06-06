@@ -1,84 +1,53 @@
 version: 2.1
-executors:
-  docker-executor:
-    docker:
-      # Primary container
-      - image: circleci/node:8
-      # DB container
-      - image: mongo:3.2.17
-        command: [mongod, --smallfiles]
-      # Localstack container
-      - image: localstack/localstack:0.12.1
-        environment:
-          SERVICES: s3
-          DEBUG: 1
-        entrypoint: bash -c 'mkdir /docker-entrypoint-initaws.d; echo -e "#!/bin/bash\nawslocal s3 mb s3://gold-id-bucket\nawslocal s3 mb s3://document-bucket\n" > /docker-entrypoint-initaws.d/buckets.sh; docker-entrypoint.sh'
-
 jobs:
-  build:
-    executor: docker-executor
+  build-and-test:
+    docker:
+      - image: circleci/node:14
+
     steps:
       - checkout
-      - attach_workspace:
-          at: ~/scr-components
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      # - run: npm run build
-      - run: cp ./.circleci/config-circleci.json ./config-local.json
-      # - run: node_modules/.bin/forever start -a -l forever.log tools/server.js
-      - run: sleep 10
-      - run: node_modules/.bin/mocha --bail --timeout 10000 --require babel-core/register --exit test/index.test.js
-      - setup_remote_docker:
-          version: 20.10.7
+
+      # Set up dependencies and build the Docker image
       - run:
           name: Build Docker image
-          command: |
-            docker build -t myapp:latest .
+          command: docker build -t my-api .
+
+      # Run API tests
       - run:
-          name: Run tests in Docker container
-          command: |
-            docker run --name myapp-container myapp:latest npm test -- --runInBand
-            # docker run --name myapp-container myapp:latest npm test
-      - store_test_results:
-          path: ././tests_output
-      - store_artifacts:
-          path: ././tests_output
-      - run:
-          name: Check test results
-          command: |
-            if [ $? -eq 0 ]; then
-              echo "Tests passed, proceeding with code upload"
-            else
-              echo "Tests failed, aborting build"
-              exit 1
-            fi
-# workflows:
-#   version: 2
-#   scr-components-workflow:
-#     jobs:
-#       - build
-#     - integration_tests:
-#           requires:
-#             - static_tests
-# workflows:
-#   version: 2
-#   thebuild:
-#     jobs:
-#       - build:
-#           filters:
-#             branches:
-#               only: develop
-#       - build_stage:
-#           filters:
-#             branches:
-#               only: master
-#       - hold_deploy_prod:
-#           type: approval
-#           requires:
-#             - build_stage
-#       - build_prod:
-#           requires:
-#             - hold_deploy_prod
-#           filters:
-#             branches:
-#               only: master  
+          name: Run API tests
+          command: docker run --rm my-api npm test
+
+  # deploy-to-production:
+  #   docker:
+  #     - image: circleci/node:14
+
+  #   steps:
+  #     - checkout
+
+  #     # Authenticate with the production environment
+  #     - run:
+  #         name: Authenticate with production environment
+  #         command: echo "$PRODUCTION_ENV_AUTH_TOKEN" | docker login --username "$PRODUCTION_ENV_USERNAME" --password-stdin
+
+  #     # Push the Docker image to production registry
+  #     - run:
+  #         name: Push Docker image to production registry
+  #         command: docker tag my-api "$PRODUCTION_REGISTRY_URL/my-api:$CIRCLE_SHA1" && docker push "$PRODUCTION_REGISTRY_URL/my-api:$CIRCLE_SHA1"
+
+  #     # Deploy the Docker image to production environment
+  #     - run:
+  #         name: Deploy Docker image to production environment
+  #         command: docker run --rm "$PRODUCTION_REGISTRY_URL/my-api:$CIRCLE_SHA1" npm run deploy
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build-and-test
+      # - deploy-to-production:
+      #     requires:
+      #       - build-and-test
+      #     filters:
+      #       branches:
+      #         only:
+      #           - main
