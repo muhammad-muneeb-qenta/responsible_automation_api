@@ -21,6 +21,7 @@ jobs:
           name: Waiting for Mongo
           command: dockerize -wait tcp://localhost:27017 -timeout 1m
       - checkout
+      
       - run:
           name: Connect to DB
           command: mongosh Admin mongouser P%40perpl%40ns786 mongopass --eval "printjson(db.apikeys.count());" develop
