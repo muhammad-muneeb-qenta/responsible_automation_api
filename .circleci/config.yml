@@ -48,6 +48,12 @@ jobs:
           name: Get MongoDB container IP
           command: MONGODB_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mongodb)
       - run:
+          name: Set MongoDB container IP
+          command: echo "MONGODB_IP=${MONGODB_IP}" >> $BASH_EN
+      - run:
+          name: Run API container and connect to MongoDB
+          command: docker run -d -p 27017:27017 --env MONGODB_HOST=${MONGODB_IP} --name my-api my-api
+      - run:
           name: Run tests in Docker container
           command: |
             docker run --name myapp-container myapp:latest npm test -- --runInBand
