@@ -2,8 +2,8 @@ version: 2.1
 executors:
   docker-executor:
     docker:
-      - image: circleci/node:6.13
-      - image: circleci/mongo:4.4.20
+      - image: circleci/node:6-browsers
+      - image: circleci/mongo:3.6
         environment:
           - MONGODB_USERNAME: Admin
           - MONGODB_PASSWORD: P%40perpl%40ns786
@@ -21,7 +21,6 @@ jobs:
           name: Waiting for Mongo
           command: dockerize -wait tcp://localhost:27017 -timeout 1m
       - checkout
-      
       - run:
           name: Connect to DB
           command: mongosh Admin mongouser P%40perpl%40ns786 mongopass --eval "printjson(db.apikeys.count());" develop
