@@ -13,8 +13,7 @@ jobs:
     steps:
     - run:
           name: Start MongoDB container
-          command: |
-            docker run -d -p 26004:26004 --Admin mongodb mongo:4.4
+          command: docker run -d -p 26004:26004 --Admin mongodb mongo:4.4
 
       # Wait for MongoDB container to be ready
       - run:
