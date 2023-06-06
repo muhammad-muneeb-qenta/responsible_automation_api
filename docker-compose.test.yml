@@ -1,0 +1,65 @@
+version: '3'
+services:
+  mongo_db:
+    logging:
+        driver: none
+    image: "mongo:3.2.17"
+    command: mongod --smallfiles
+  localstack:
+    image: localstack/localstack:0.12.1
+    environment:
+      - SERVICES=s3
+      - DEBUG=1
+    ports:
+      - "4566:4566"
+      - "8055:8080"
+    volumes:
+      - ./.localstack:/docker-entrypoint-initaws.d
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NPM_PASS: "${NPM_PASS}"
+    depends_on:
+      - mongo_db
+      - localstack
+    volumes:
+      - ./config-local.json:/app/config-local.json:z
+      - ./firebase-service-account.json:/app/firebase-service-account.json:z
+      - ./lib:/app/lib:z
+    links:
+      - localstack
+    ports:
+      - "1337:80"
+    environment:
+      - MONGODB_URI=mongodb://mongo_db:27017/integration
+      - PORT=80
+      - AWS_SECRET_ACCESS_KEY=fake
+      - AWS_ACCESS_KEY_ID=alsofake
+  sut:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NPM_PASS: "${NPM_PASS}"
+    command: bash -c "sleep 10 && node_modules/.bin/mocha --bail --timeout 20000 --require babel-core/register --exit integration-tests/index.test.js"
+    depends_on:
+      - server
+      - mongo_db
+      - localstack
+    volumes:
+      - ./config-local.json:/app/config-local.json:z
+      - ./firebase-service-account.json:/app/firebase-service-account.json:z
+      - ./integration-tests:/app/integration-tests:z
+      - ./lib:/app/lib:z
+    links:
+      - localstack
+    environment:
+      - BASE_URL=http://server
+      - MONGODB_URI=mongodb://mongo_db:27017/integration
+      - DELAY=5
+      - AWS_SECRET_ACCESS_KEY=fake
+      - AWS_ACCESS_KEY_ID=alsofake
+
+

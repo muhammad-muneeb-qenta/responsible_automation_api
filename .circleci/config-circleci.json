@@ -1,0 +1,73 @@
+{
+    "BASE_URL": "http://localhost:1337",
+    "LOG_LEVEL": "debug",
+    "PORT": "1337",
+    "NUMBER_OF_WORKERS": "1",
+    "MONGODB_URI": "mongodb://localhost:27017/integration-tests",
+    "CHRON_PUBLIC_KEY": "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0NCk1JSUJJakFOQmdrcWhraUc5dzBCQVFFRkFBT0NBUThBTUlJQkNnS0NBUUVBdjNIaEpGdW9KZDVpL0NpQVRCNHANCnRISkZnM2w3MlRja2RHY2lqVmxKSmVxbEp6M0hOVHZXSERzUXJZdkRwaGQvTTNZdmczdkdQOGtOcWwyZkhaVUcNCklFM2huSU40bmlxNCtOM3ZKeTRDL3UzTTF0WURRZ1lnQ2MyNHUwdHRXVDJRZW5iT2pUVloybXRiTkk1OGpjZ2wNCm93U1V5NVBlNXVBYlVyTjVOMlByUHVXSjNpdFNoYytSRkFqSDQ1T0x5UHJEcEdjOUN6SEpNNnZmRktXdGdkLzENCnZNYW5ZL1BrbDJyUEI4Z0dFMnJCaGpjQVBUUjFXaUFCYWpIYkFwT0JGc1ZVeHZUYXc5T3NncEFUNVc0SitnUUMNCkpiQmFLNTBBQUdNWGpudVVseExmb2p0TUxQMVVyMUlGdFNyTGExaGhwK3Z5NndsNWh4WXBOMU8zWUVaZmE3NHcNCmJRSURBUUFCDQotLS0tLUVORCBQVUJMSUMgS0VZLS0tLS0NCg==",
+    "CHRON_PRIVATE_KEY": "LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tDQpNSUlFdmdJQkFEQU5CZ2txaGtpRzl3MEJBUUVGQUFTQ0JLZ3dnZ1NrQWdFQUFvSUJBUUMvY2VFa1c2Z2wzbUw4DQpLSUJNSGltMGNrV0RlWHZaTnlSMFp5S05XVWtsNnFVblBjYzFPOVljT3hDdGk4T21GMzh6ZGkrRGU4WS95UTJxDQpYWjhkbFFZZ1RlR2NnM2llS3JqNDNlOG5MZ0wrN2N6VzFnTkNCaUFKemJpN1MyMVpQWkI2ZHM2Tk5WbmFhMXMwDQpqbnlOeUNXakJKVExrOTdtNEJ0U3MzazNZK3MrNVluZUsxS0Z6NUVVQ01mams0dkkrc09rWnowTE1ja3pxOThVDQpwYTJCMy9XOHhxZGo4K1NYYXM4SHlBWVRhc0dHTndBOU5IVmFJQUZxTWRzQ2s0RVd4VlRHOU5yRDA2eUNrQlBsDQpiZ242QkFJbHNGb3JuUUFBWXhlT2U1U1hFdCtpTzB3cy9WU3ZVZ1cxS3N0cldHR242L0xyQ1htSEZpazNVN2RnDQpSbDlydmpCdEFnTUJBQUVDZ2dFQUtlTDlzcG5IUVhuVnlId0lEaDl2V29iQ0JORVlzdDdvdi9zc3lTWm01Yi9nDQpJS1RZcUNJT1o2RFl0ay9sSDdyMlhza1YvanVmbGFja3NVaklubzFUaU0vaGRBQWo3TjlHRjFWZmxQL3hNZHZQDQp2SldZb3VKNk1ncnJ4emJxbHVMc2NJNzhCRk5POUlZV3Izb1pjR0FCTkJpMWdaRTU3T1BOdHB1RUF3VituQVQxDQp5RTZZUXlyT0hqNWs2VmRraElrclVya0dBWVp6VHI3M1pUWFpaZkRBeWRVNWJ0TGRuaGxjZUhnZitKUDlEbVRCDQpMZTA3c0dYNTIrMnZRYlRBdWxRMEJQS2xFdjN2OFpNdHlIWGxPNEJ4WFJjM1dIODVyRUFlUHdJdVhhNlhQNWJTDQpDNHZaU2FtdGJBaDVMR1NXNUplV1hiaU41WTV0Y2ZzUURRVzAza3ppMVFLQmdRRHE5K0JTbDhPMHJsN2wyVWlQDQpLRnF0MEUyVzJCaWdnRTdVRTh5R2svcW0wL1JBV2dYRTBaTzlaSnYrSTRTMmw1OENhK1hQbUdPN09xWDhpNUJIDQowelBoc2hITUZzMkpvVjdwSDczS1MvQVlvNTB1SnNjMWJLanQrbDF1UHl2N041ZjNvWUw2dzhUd2Y1VXlFaWg2DQpnNmpTMGtrUkNJT3hQbm1EY0ZnSXZtbFBUd0tCZ1FEUWxMSTN6Q1E1eVpSNVZhNnpXN3dRWnl1ZFZhTHZ6RjhGDQpyZ292UENCcysyT2luV0JKN09MSjFZSUtkYkZZa2RTdXpkcXBKODh4dGFiRlVnQ1hhOTFSL3h5ZHh3U3c5ejBqDQo3RWFDTFVWd25QZzVMcFdFR2VZM08vTTBwWG5LbEZlamFpWER5QnphMVhhbnhyMW5aYlJIOEtMcjBuV2lwdnhFDQpRUFJBQU16MWd3S0JnUURuUjIycVhtL29YT3BUMi9ncjBWRFFYWVRCd1pzY0FLK1cySllzc1dPNjZrNDFPV2NNDQpRQzNuOGl3Smp2U0d0ZDl5QnJxQ0NFSENmUXY4OVhMaS8rVEZkdjFGb2Z4V1NGeWZvdnF4TU9YM21yU1FST000DQpsdWdBdHJ0WVZSMzVmTk04aitIWTZ2SGl0L0luQXZDTkJ5TVp3SnJqQlRwN01EOXpQUldxSmFLS3lRS0JnR1lBDQo4ZzhiaEhQR1F4ZjdjUTVCeEh6NUYzbEFFZ2pYbDNpOW5qbHZYQ1F2NUkvNENzamNVaVNHaDZ2NTFwc0w1a2orDQpYdnJ1ZndNK1pLcUc2Y2NqZHY3TWxnQUsvaDVWS3M5UWswTENSUDFIcHBUQVZWcGZHQmpXOXA4K2RZcytkSVYwDQpPYmUvTzIxQmkxK05iNzhMRzlrNnMxSkVnRWJsQnVXU0ptRE9nMjFsQW9HQkFKbXprV2syMWM5N0w5a2wwTG1KDQpYTFVFYWUzZE1HVjdkSHVoK2R2VmJXTEozaWRncEJkbXJVSm1aUmFrcDR5TzBmMHB4cWxSN0Z2WDB1TVhobWNzDQpuemN2SENUUEhSaXcxaXZpNzNnZ0UzZC84Uk1ud3ZTazQ1TWw2S3BBODJsbnB0OWErSkxWaS9hVGhSZDZNOExODQp0TndrbFgwUjh2WVh0R01xQlNiTCtCOGsNCi0tLS0tRU5EIFBSSVZBVEUgS0VZLS0tLS0NCg==",
+    "JWT_EXPIRATION_TIME": 300000,
+    "JWT_AUDIENCE": "develop.emergenttech.com",
+    "JWT_ISSUER": "develop.emergenttech.com",
+    "SESSION_TIMEOUT_MIN": 20,
+    "WEB_DASHBOARD_URL": "http://admin.emergenttechtest.net/latest_commit_hash",
+    "INVITATION_EMAIL_TEMPLATE": "https://s3-us-west-2.amazonaws.com/rg-ops/user-data/email_templates/user-invite-rg",
+    "CODE_EMAIL_TEMPLATE": "https://s3-us-west-2.amazonaws.com/rg-ops/user-data/email_templates/code-email-rg.html",
+    "REJECT_TRANSFER_EMAIL_TEMPLATE": "https://s3-us-west-2.amazonaws.com/rg-ops/user-data/email_templates/reject-transfer-email.html",
+    "SECOND_AUTH_EMAIL": "https://s3-us-west-2.amazonaws.com/rg-ops/user-data/email_templates/second-authentication-email-rg.html",
+    "USER_SUSPEND_EMAIL_TEMPLATE": "https://s3-us-west-2.amazonaws.com/rg-ops/user-data/email_templates/suspend-user-email.html",
+    "USER_RESTORE_EMAIL_TEMPLATE": "https://s3-us-west-2.amazonaws.com/rg-ops/user-data/email_templates/restore-user-email.html",
+    "PASSWORD_RESET_EMAIL_TEMPLATE": "https://s3-us-west-2.amazonaws.com/rg-ops/user-data/email_templates/password-request-rg.html",
+    "PASSWORD_SUCCESS_EMAIL_TEMPLATE": "https://s3-us-west-2.amazonaws.com/rg-ops/user-data/email_templates/password-success-rg.html",
+    "AUTHORIZATION_SETTINGS": {
+      "ORG_PARAMS_TO_SCOPE": {
+        "Network Operator": {
+          "user": "write:organizations write:assets write:products write:organizations/{id}/reports",
+          "admin": "write:organizations write:assets write:products write:organizations/{id}/reports"
+        },
+        "Commerce": {
+          "user": "read:organizations/* write:assets/* write:products/* write:organizations/{id}/documents",
+          "admin": "read:organizations/* write:organizations/{id} write:assets/* write:products/* write:organizations/{id}/documents"
+        },
+        "Miner": {
+          "user": "write:organizations/{id}/products write:organizations/{id}/assets read:organizations/{id} write:organizations/{id}/documents write:organizations/{id}/reports",
+          "admin": "write:organizations/{id} write:organizations/{id}/reports write:assets/exit"
+        },
+        "Refiner": {
+          "user": "write:organizations/{id}/products write:organizations/{id}/assets read:organizations/{id} write:organizations/{id}/documents write:organizations/{id}/reports",
+          "admin": "write:organizations/{id} write:organizations/{id}/reports write:assets/exit"
+        },
+        "Vault": {
+          "user": "read:organizations/{id} read:organizations/{id} write:organizations/{id}/assets write:organizations/{id}/documents write:organizations/{id}/reports",
+          "admin": "write:organizations/{id} write:organizations/{id}/assets write:organizations/{id}/documents write:organizations/{id}/reports write:assets/exit"
+        },
+        "Logistics Operator": {
+          "user": "read:organizations/{id} read:organizations/{id} write:organizations/{id}/assets/* write:organizations/{id}/documents write:organizations/{id}/reports",
+          "admin": "write:organizations/{id} write:organizations/{id}/assets/* write:organizations/{id}/documents write:organizations/{id}/reports write:assets/exit"
+        }
+      }
+    },
+    "BLOCKCHAIN_SETTINGS": {
+      "quorum-local": {
+        "coinbase": "0xee72a9e4e939f0c01ef78b4dfd93af4cfb079a05",
+        "rpcUrl": "http://localhost:8545",
+        "keys": {
+          "0xee72a9e4e939f0c01ef78b4dfd93af4cfb079a05": "a43f56583c9c7e1ac44952c650fe8758af20699cd8c4af6ccd6eb0e205bb772f"
+        }
+      }
+    },
+    "REQUIRE_COMMITMENT_FOR_TRANSFER": false,
+    "AWS_ACCESS_KEY_ID": "fake",
+    "AWS_SECRET_ACCESS_KEY": "alsofake",
+    "AWS_S3_ENDPOINT": "http://localhost:4566",
+    "AWS_S3_FORCE_PATH_STYLE": true,
+    "AWS_S3_DOCUMENT_BUCKET": "document-bucket",
+    "AWS_S3_GOLDID_BUCKET": "gold-id-bucket",
+    "TRUSTSTAMP_API_BASE_URL": "http://localhost:9001/truststamp",
+    "TRUSTSTAMP_API_AUTH_USERNAME": "admin",
+    "TRUSTSTAMP_API_AUTH_PASSWORD": "admin",
+    "TRUSTSTAMP_CONFIDENCE_SCORE_THRESHOLD": 0.85,
+    "REPORTING_URI": "http://dev-nlbpublic-1b8e2c1b1b5b52a5.elb.us-west-2.amazonaws.com:8071",
+    "SYSTEM_USERS_SKIP_LOGIN_AND_EVENTS": ""
+  }
+  
