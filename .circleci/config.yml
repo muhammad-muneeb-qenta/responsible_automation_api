@@ -19,8 +19,7 @@ jobs:
     executor: docker-executor
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 20.10.7
+   
         - checkout
       - attach_workspace:
           at: ~/scr-components
@@ -31,6 +30,8 @@ jobs:
       - run: node_modules/.bin/forever start -a -l forever.log tools/server.js
       - run: sleep 10
       - run: node_modules/.bin/mocha --bail --timeout 10000 --require babel-core/register --exit integration-tests/index.test.js
+      - setup_remote_docker:
+          version: 20.10.7
       - run:
           name: Build Docker image
           command: |
