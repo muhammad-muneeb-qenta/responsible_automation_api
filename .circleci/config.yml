@@ -46,7 +46,10 @@ jobs:
           command: docker exec mongodb mongo --eval "printjson(db)"
       - run:
           name: Get MongoDB container IP
-          command: MONGODB_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mongodb)
+          command: echo "export MONGODB_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mongodb)" >> $BASH_ENV
+      - run:
+          name: Load environment variables
+          command: source $BASH_ENV
       - run:
           name: Set MongoDB container IP
           command: echo "MONGODB_IP=${MONGODB_IP}" >> $BASH_EN
