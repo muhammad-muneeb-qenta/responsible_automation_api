@@ -3,7 +3,7 @@ executors:
   docker-executor:
     docker:
       - image: circleci/node:6-browsers
-      - image: circleci/mongo:3.6
+      - image: circleci/mongo:4.4.20
         environment:
           - MONGODB_USERNAME: Admin
           - MONGODB_PASSWORD: P%40perpl%40ns786
