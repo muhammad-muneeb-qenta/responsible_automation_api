@@ -23,9 +23,9 @@ jobs:
       - setup_remote_docker:
           version: 20.10.7
           
-      - run:
-          name: Waiting for Mongo
-          command: dockerize -wait tcp://localhost:27017 -timeout 1m
+      # - run:
+      #     name: Waiting for Mongo
+      #     command: dockerize -wait tcp://localhost:27017 -timeout 1m
       - checkout
       # - run:
       #     name: Connect to DB
@@ -44,6 +44,9 @@ jobs:
       - run:
           name: Wait for MongoDB container
           command: docker exec mongodb mongo --eval "printjson(db)"
+      - run:
+          name: Get MongoDB container IP
+          command: MONGODB_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mongodb)
       - run:
           name: Run tests in Docker container
           command: |
