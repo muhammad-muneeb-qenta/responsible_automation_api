@@ -19,21 +19,21 @@ jobs:
       #       echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
       #       sudo apt-get update
       #       sudo apt-get install -y mongodb-org-shell
-      - setup_remote_docker:
-          version: 20.10.7
       - run:
           name: Waiting for Mongo
           command: dockerize -wait tcp://localhost:27017 -timeout 1m
       - checkout
       - run:
           name: Connect to DB
-          command: mongo --username Admin --password P%40perpl%40ns786 --eval "printjson(db.apikeys.count());" develop
+          command: mongodb && mongo --eval 'db.createUser({ user: "Admin", pwd: "P%40perpl%40ns786", roles: [ { role: "Admin", db: "develop" } ] })'
       # - setup_remote_docker:
       #     version: 20.10.7
       - run:
           name: Build Docker image
           command: |
             docker build -t myapp:latest .
+      - setup_remote_docker:
+          version: 20.10.7
       - run:
           name: Run tests in Docker container
           command: |
