@@ -27,8 +27,8 @@ jobs:
       - checkout
       - run:
           name: Connect to DB
-          command: mongodb && mongo  --username Admin --password P%40perpl%40ns786 --eval "printjson(db.apikeys.count());" develop
-          command: "mongodb && mongo --eval 'db.createUser({ user: "Admin", pwd: "P%40perpl%40ns786", roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] })'
+          command:  mongo  --username Admin --password P%40perpl%40ns786 --eval "printjson(db.apikeys.count());" develop
+          # command: "mongodb && mongo --eval 'db.createUser({ user: "Admin", pwd: "P%40perpl%40ns786", roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] })'
       # - setup_remote_docker:
       #     version: 20.10.7
       - run:
