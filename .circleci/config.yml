@@ -51,9 +51,6 @@ jobs:
           name: Load environment variables
           command: source $BASH_ENV
       - run:
-          name: Set MongoDB container IP
-          command: echo "MONGODB_IP=${MONGODB_IP}" >> $BASH_EN
-      - run:
           name: Run API container and connect to MongoDB
           command: docker run -d -p 27017:27017 --env MONGODB_HOST=${MONGODB_IP} --name my-api my-api
       - run:
