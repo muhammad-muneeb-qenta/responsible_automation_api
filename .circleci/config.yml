@@ -1,19 +1,84 @@
-# This file is the CircleCI configuration file for a Node.js API.
-# It will create a docker virtual instance and perform a test.
-
 version: 2.1
+executors:
+  docker-executor:
+    docker:
+      # Primary container
+      - image: circleci/node:8
+      # DB container
+      - image: mongo:3.2.17
+        command: [mongod, --smallfiles]
+      # Localstack container
+      - image: localstack/localstack:0.12.1
+        environment:
+          SERVICES: s3
+          DEBUG: 1
+        entrypoint: bash -c 'mkdir /docker-entrypoint-initaws.d; echo -e "#!/bin/bash\nawslocal s3 mb s3://gold-id-bucket\nawslocal s3 mb s3://document-bucket\n" > /docker-entrypoint-initaws.d/buckets.sh; docker-entrypoint.sh'
 
 jobs:
-  create-docker-virtual-instance-and-perform-test:
-    name: Create Docker virtual instance and perform test
+  build:
+    executor: docker-executor
     steps:
-      - checkout:
-          path: /app
-
+      - checkout
+      - attach_workspace:
+          at: ~/scr-components
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      # - run: npm run build
+      - run: cp ./.circleci/config-circleci.json ./config-local.json
+      - run: node_modules/.bin/forever start -a -l forever.log tools/server.js
+      - run: sleep 10
+      - run: node_modules/.bin/mocha --bail --timeout 10000 --require babel-core/register --exit integration-tests/index.test.js
+      - setup_remote_docker:
+          version: 20.10.7
       - run:
-          name: Create docker virtual instance
-          command: docker run -it -v /app:/app -p 3000:3000 circleci/node:16
-
+          name: Build Docker image
+          command: |
+            docker build -t myapp:latest .
       - run:
-          name: Perform test
-          command: jest
+          name: Run tests in Docker container
+          command: |
+            docker run --name myapp-container myapp:latest npm test -- --runInBand
+            # docker run --name myapp-container myapp:latest npm test
+      - store_test_results:
+          path: ././tests_output
+      - store_artifacts:
+          path: ././tests_output
+      - run:
+          name: Check test results
+          command: |
+            if [ $? -eq 0 ]; then
+              echo "Tests passed, proceeding with code upload"
+            else
+              echo "Tests failed, aborting build"
+              exit 1
+            fi
+workflows:
+  version: 2
+  scr-components-workflow:
+    jobs:
+      - build
+    - integration_tests:
+          requires:
+            - static_tests
+# workflows:
+#   version: 2
+#   thebuild:
+#     jobs:
+#       - build:
+#           filters:
+#             branches:
+#               only: develop
+#       - build_stage:
+#           filters:
+#             branches:
+#               only: master
+#       - hold_deploy_prod:
+#           type: approval
+#           requires:
+#             - build_stage
+#       - build_prod:
+#           requires:
+#             - hold_deploy_prod
+#           filters:
+#             branches:
+#               only: master  
