@@ -11,13 +11,22 @@ jobs:
   build:
     executor: docker-executor
     steps:
-      - run:
-          name: Install MongoDB
+    - run:
+          name: Start MongoDB container
           command: |
-            wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
-            echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
-            sudo apt-get update
-            sudo apt-get install -y mongodb-org
+            docker run -d -p 26004:26004 --Admin mongodb mongo:4.4
+
+      # Wait for MongoDB container to be ready
+      - run:
+          name: Wait for MongoDB container
+          command: docker exec mongodb mongo --eval "printjson(db)"
+      # - run:
+      #     name: Install MongoDB
+      #     command: |
+      #       wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+      #       echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+      #       sudo apt-get update
+      #       sudo apt-get install -y mongodb-org
 
       - setup_remote_docker:
           version: 20.10.7
