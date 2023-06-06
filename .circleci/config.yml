@@ -1,53 +1,71 @@
 version: 2.1
-jobs:
-  build-and-test:
+executors:
+  docker-executor:
     docker:
       - image: circleci/node:14
-
+      - image: circleci/mongo:3.6
+        environment:
+          - MONGODB_USERNAME: Admin
+          - MONGODB_PASSWORD: P%40perpl%40ns786
+jobs:
+  build:
+    executor: docker-executor
     steps:
+      - setup_remote_docker
+      - run:
+          name: Waiting for Mongo
+          command: dockerize -wait tcp://localhost:27017 -timeout 1m
+      - run:
+          name: Install mongo client
+          command: |
+            sudo apt-get install -y mongodb
       - checkout
-
-      # Set up dependencies and build the Docker image
+      - run:
+          name: Connect to DB
+          command: mongo --Admin mongouser --P%40perpl%40ns786 mongopass --eval "printjson(db.apikeys.count());" develop
+      - setup_remote_docker:
+          version: 20.10.7
       - run:
           name: Build Docker image
-          command: docker build -t my-api .
-
-      # Run API tests
+          command: |
+            docker build -t myapp:latest .
       - run:
-          name: Run API tests
-          command: docker run --rm my-api npm test
-
-  # deploy-to-production:
-  #   docker:
-  #     - image: circleci/node:14
-
-  #   steps:
-  #     - checkout
-
-  #     # Authenticate with the production environment
-  #     - run:
-  #         name: Authenticate with production environment
-  #         command: echo "$PRODUCTION_ENV_AUTH_TOKEN" | docker login --username "$PRODUCTION_ENV_USERNAME" --password-stdin
-
-  #     # Push the Docker image to production registry
-  #     - run:
-  #         name: Push Docker image to production registry
-  #         command: docker tag my-api "$PRODUCTION_REGISTRY_URL/my-api:$CIRCLE_SHA1" && docker push "$PRODUCTION_REGISTRY_URL/my-api:$CIRCLE_SHA1"
-
-  #     # Deploy the Docker image to production environment
-  #     - run:
-  #         name: Deploy Docker image to production environment
-  #         command: docker run --rm "$PRODUCTION_REGISTRY_URL/my-api:$CIRCLE_SHA1" npm run deploy
-
-workflows:
-  version: 2
-  build-and-deploy:
-    jobs:
-      - build-and-test
-      # - deploy-to-production:
-      #     requires:
-      #       - build-and-test
-      #     filters:
-      #       branches:
-      #         only:
-      #           - main
+          name: Run tests in Docker container
+          command: |
+            docker run --name myapp-container myapp:latest npm test -- --runInBand
+            # docker run --name myapp-container myapp:latest npm test
+      - store_test_results:
+          path: ././tests_output
+      - store_artifacts:
+          path: ././tests_output
+      - run:
+          name: Check test results
+          command: |
+            if [ $? -eq 0 ]; then
+              echo "Tests passed, proceeding with code upload"
+            else
+              echo "Tests failed, aborting build"
+              exit 1
+            fi
+# workflows:
+#   version: 2
+#   thebuild:
+#     jobs:
+#       - build:
+#           filters:
+#             branches:
+#               only: develop
+#       - build_stage:
+#           filters:
+#             branches:
+#               only: master
+#       - hold_deploy_prod:
+#           type: approval
+#           requires:
+#             - build_stage
+#       - build_prod:
+#           requires:
+#             - hold_deploy_prod
+#           filters:
+#             branches:
+#               only: master  
