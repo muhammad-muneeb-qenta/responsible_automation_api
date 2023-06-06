@@ -1,11 +1,19 @@
-job:
-  name: Create Docker virtual instance and perform test
-  steps:
-  - checkout:
-      path: /app
-  - run:
-      name: Create docker virtual instance
-      command: docker run -it -v /app:/app -p 3000:3000 circleci/node:16
-  - run:
-      name: Perform test
-      command: jest
+# This file is the CircleCI configuration file for a Node.js API.
+# It will create a docker virtual instance and perform a test.
+
+version: 2.1
+
+jobs:
+  create-docker-virtual-instance-and-perform-test:
+    name: Create Docker virtual instance and perform test
+    steps:
+      - checkout:
+          path: /app
+
+      - run:
+          name: Create docker virtual instance
+          command: docker run -it -v /app:/app -p 3000:3000 circleci/node:16
+
+      - run:
+          name: Perform test
+          command: jest
