@@ -11,7 +11,8 @@ jobs:
   build:
     executor: docker-executor
     steps:
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 20.10.7
       - run:
           name: Waiting for Mongo
           command: dockerize -wait tcp://localhost:27017 -timeout 1m
@@ -23,8 +24,8 @@ jobs:
       - run:
           name: Connect to DB
           command: mongo --Admin mongouser --P%40perpl%40ns786 mongopass --eval "printjson(db.apikeys.count());" develop
-      - setup_remote_docker:
-          version: 20.10.7
+      # - setup_remote_docker:
+      #     version: 20.10.7
       - run:
           name: Build Docker image
           command: |
