@@ -2,7 +2,7 @@ version: 2.1
 executors:
   docker-executor:
     docker:
-      - image: circleci/node:10-browsers
+      - image: circleci/node:6-browsers
       - image: mongo:4.4.5
         environment:
           - MONGODB_USERNAME: Admin
