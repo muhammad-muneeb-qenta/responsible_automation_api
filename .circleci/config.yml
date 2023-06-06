@@ -27,7 +27,7 @@ jobs:
       - checkout
       - run:
           name: Connect to DB
-          command: mongo Admin mongouser P%40perpl%40ns786 mongopass --eval "printjson(db.apikeys.count());" develop
+          command: mongosh Admin mongouser P%40perpl%40ns786 mongopass --eval "printjson(db.apikeys.count());" develop
       # - setup_remote_docker:
       #     version: 20.10.7
       - run:
