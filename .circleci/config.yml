@@ -19,8 +19,6 @@ jobs:
     executor: docker-executor
     steps:
       - checkout
-   
-        - checkout
       - attach_workspace:
           at: ~/scr-components
       - restore_cache:
@@ -59,9 +57,9 @@ workflows:
   scr-components-workflow:
     jobs:
       - build
-      - static_tests:
+    - integration_tests:
           requires:
-            - build
+            - static_tests
 # workflows:
 #   version: 2
 #   thebuild:
