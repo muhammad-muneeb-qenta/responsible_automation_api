@@ -56,8 +56,8 @@ jobs:
       - run:
           name: Run tests in Docker container
           command: |
-            docker run --name myapp-container myapp:latest npm test -- --runInBand
-            docker run --name myapp-container myapp:latest npm test     
+            docker run --name myapp-container2 myapp:latest npm test -- --runInBand
+            docker run --name myapp-container2 myapp:latest npm test     
       # - run:
       #     name: Run API tests
       #     command: docker run --user root --rm mongodb://Admin:P%40perpl%40ns786@192.168.30.11:26004/develop?authSource=admin&readPreference=primary&directConnection=true&ssl=false npm test
