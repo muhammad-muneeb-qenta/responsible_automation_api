@@ -2,19 +2,23 @@ version: 2.1
 executors:
   docker-executor:
     docker:
-      - image: circleci/node:6-browsers
-      - image: circleci/mongo:4.4.20
+      - image: circleci/node:10-browsers
+      - image: circleci/mongo:3.6
         environment:
           - MONGODB_USERNAME: Admin
           - MONGODB_PASSWORD: P%40perpl%40ns786
 jobs:
   build:
     executor: docker-executor
-    steps:  
-      - run:
-          name: MongoDB Install
-          command: |
-                sudo apt-get install -y mongodb
+    steps:
+  
+      # - run:
+      #     name: MongoDB Install
+      #     command: |
+      #       wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+      #       echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+      #       sudo apt-get update
+      #       sudo apt-get install -y mongodb-org-shell
       - setup_remote_docker:
           version: 20.10.7
       - run:
@@ -23,7 +27,7 @@ jobs:
       - checkout
       - run:
           name: Connect to DB
-          command: mongosh Admin mongouser P%40perpl%40ns786 mongopass --eval "printjson(db.apikeys.count());" develop
+          command: mongosh --username Admin --password P%40perpl%40ns786 --eval "printjson(db.apikeys.count());" develop
       # - setup_remote_docker:
       #     version: 20.10.7
       - run:
