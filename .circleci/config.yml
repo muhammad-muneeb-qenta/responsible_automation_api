@@ -34,7 +34,7 @@ jobs:
           command: docker-compose down
 
 workflows:
-  version: 2
+  version:  2.1
   build-and-test:
     jobs:
       - build-and-test
