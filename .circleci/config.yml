@@ -1,40 +1,43 @@
-version: 2.1
-
+version: 2
 jobs:
-  build-and-test:
+  build:
     docker:
       - image: circleci/node:14
-
     steps:
       - checkout
-
-      # Build and run the Docker containers
-      - run:
-          name: Build and run Docker containers
-          command: docker-compose up -d
-
-      # Wait for the containers to be ready (optional)
-      - run:
-          name: Wait for containers
-          command: sleep 10
-
-      # Install dependencies
       - run:
           name: Install dependencies
           command: npm install
-
-      # Run API tests
       - run:
-          name: Run API tests
-          command: docker-compose run --rm api npm test
+          name: Set up environment variables
+          command: |
+            echo "MONGODB_HOST=localhost" >> $BASH_ENV
+            echo "MONGODB_PORT=27017" >> $BASH_ENV
+            # Add any other environment variables required for testing
 
-      # Clean up the Docker containers
+  test:
+    docker:
+      - image: circleci/node:14
+    steps:
+      - checkout
       - run:
-          name: Clean up Docker containers
-          command: docker-compose down
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Set up environment variables
+          command: |
+            echo "MONGODB_HOST=localhost" >> $BASH_ENV
+            echo "MONGODB_PORT=27017" >> $BASH_ENV
+            # Add any other environment variables required for testing
+      - run:
+          name: Run tests
+          command: npm test
 
 workflows:
-  version:  2.1
+  version: 2
   build-and-test:
     jobs:
-      - build-and-test
+      - build
+      - test:
+          requires:
+            - build

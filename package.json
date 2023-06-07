@@ -21,11 +21,13 @@
   "devDependencies": {
     "bluebird": "^3.7.2",
     "chai": "^4.3.6",
-    "mocha": "^10.0.0",
+    "mocha": "^10.2.0",
     "should": "^13.2.3",
     "supertest": "^6.2.4"
   },
   "dependencies": {
-    "eslint": "^8.42.0"
+    "eslint": "^8.42.0",
+    "jtest": "^0.0.1",
+    "sinon": "^15.1.0"
   }
 }
