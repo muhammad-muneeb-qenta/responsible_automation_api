@@ -1,99 +1,33 @@
 version: 2.1
-executors:
-  docker-executor:
-    docker:
-      - image: circleci/node:6-browsers
-      - image: mongo:3.2.17
-        environment:
-          - MONGODB_USERNAME: Admin
-          - MONGODB_PASSWORD: P%40perpl%40ns786
 jobs:
-  build:
-    executor: docker-executor
+  build-and-test:
+    docker:
+      - image: circleci/node:14
+
     steps:
-     
-      # - run:
-      #     name: Install MongoDB
-      #     command: |
-      #       wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
-      #       echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
-      #       sudo apt-get update
-      #       sudo apt-get install -y mongodb-org
-
-      - setup_remote_docker:
-          version: 20.10.7
-          
-      # - run:
-      #     name: Waiting for Mongo
-      #     command: dockerize -wait tcp://localhost:27017 -timeout 1m
       - checkout
-      # - run:
-      #     name: Connect to DB
-      #     command:  mongo  --username Admin --password P%40perpl%40ns786 --eval "printjson(db.apikeys.count());" develop
-      #     # command: "mongodb && mongo --eval 'db.createUser({ user: "Admin", pwd: "P%40perpl%40ns786", roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] })'
-      # # - setup_remote_docker:
-      # #     version: 20.10.7
-      - run:
-          name: Build Docker image
-          command: |
-            docker build -t myapp:latest .
-      - run:
-          name: Start MongoDB container
-          command: docker run -d -p 27017:27017 --name mongodb mongo:3.2.17
-      # Wait for MongoDB container to be ready
-      - run:
-          name: Wait for MongoDB container
-          command: docker exec mongodb mongo --eval "printjson(db)"
-      - run:
-          name: Get MongoDB container IP
-          command: echo "export MONGODB_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mongodb)" >> $BASH_ENV
-      - run:
-          name: Load environment variables
-          command: source $BASH_ENV
-      - run:
-          name: Run API container and connect to MongoDB
-          command: docker run -d -p 27017:27017 --env MONGODB_HOST=${MONGODB_IP} --name my-api mongodb://Admin:P%40perpl%40ns786@192.168.30.11:26004/develop?authSource=admin&readPreference=primary&directConnection=true&ssl=false
-      - run:
-          name: Run tests in Docker container
-          command: |
-            docker run --name myapp-container myapp:latest npm test -- --runInBand
-            # docker run --name myapp-container myapp:latest npm test
-      - run:
-          name: Clean up containers
-          command: docker stop mongodb my-api && docker rm mongodb mongodb://Admin:P%40perpl%40ns786@192.168.30.11:26004/develop?authSource=admin&readPreference=primary&directConnection=true&ssl=false
 
-      - store_test_results:
-          path: ././tests_output
-      - store_artifacts:
-          path: ././tests_output
+      # Build and run the Docker containers
       - run:
-          name: Check test results
-          command: |
-            if [ $? -eq 0 ]; then
-              echo "Tests passed, proceeding with code upload"
-            else
-              echo "Tests failed, aborting build"
-              exit 1
-            fi
-# workflows:
-#   version: 2
-#   thebuild:
-#     jobs:
-#       - build:
-#           filters:
-#             branches:
-#               only: develop
-#       - build_stage:
-#           filters:
-#             branches:
-#               only: master
-#       - hold_deploy_prod:
-#           type: approval
-#           requires:
-#             - build_stage
-#       - build_prod:
-#           requires:
-#             - hold_deploy_prod
-#           filters:
-#             branches:
-#               only: master  
+          name: Build and run Docker containers
+          command: docker-compose up -d
+
+      # Wait for the containers to be ready (optional)
+      - run:
+          name: Wait for containers
+          command: sleep 10
+
+      # Install dependencies
+      - run:
+          name: Install dependencies
+          command: npm install
+
+      # Run API tests
+      - run:
+          name: Run API tests
+          command: docker-compose run --rm api npm test
+
+      # Clean up the Docker containers
+      - run:
+          name: Clean up Docker containers
+          command: docker-compose down
