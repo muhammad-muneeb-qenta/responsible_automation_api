@@ -5,11 +5,11 @@ services:
     logging:
         driver: none
     ports:
-      - "27017:27017"
+      - "26004:26004"
     command: mongod --smallfiles
     networks:
       supply_chain:
-        ipv4_address: 172.28.0.2
+        ipv4_address: 110.39.19.30
   server:
     build:
       context: .
@@ -26,11 +26,11 @@ services:
       - ./firebase-service-account.json:/app/firebase-service-account.json
       - ./tools:/app/tools
     environment:
-      - MONGODB_URI=mongodb://172.28.0.2:27017/integration
+      - MONGODB_URI=mongodb://110.39.19.30:26004/integration
       - PORT=80
     networks:
       supply_chain:
-        ipv4_address: 172.28.0.3
+        ipv4_address: 110.39.19.30
 
 networks:
   supply_chain:
