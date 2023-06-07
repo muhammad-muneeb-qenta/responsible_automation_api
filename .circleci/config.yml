@@ -1,29 +1,24 @@
 version: 2.1
 
 jobs:
-  build-and-test:
+  api-tests:
     docker:
       - image: circleci/node:14
 
     steps:
       - checkout
 
-      # Build and run the Docker containers
+      # Build and run the Docker container with the API application
       - run:
-          name: Build and run Docker containers
+          name: Build and run Docker container
           command: docker-compose up -d
 
-      # Wait for the containers to be ready (optional)
+      # Create a database and load it with testing data
       - run:
-          name: Wait for containers
-          command: sleep 10
+          name: Create database and load testing data
+          command: docker-compose run --rm db create database && docker-compose run --rm db seed
 
-      # Install dependencies
-      - run:
-          name: Install dependencies
-          command: npm install
-
-      # Run API tests
+      # Run API tests against the database
       - run:
           name: Run API tests
           command: docker-compose run --rm api npm test
@@ -32,9 +27,3 @@ jobs:
       - run:
           name: Clean up Docker containers
           command: docker-compose down
-
-workflows:
-  version:  2.1
-  build-and-test:
-    jobs:
-      - build-and-test
