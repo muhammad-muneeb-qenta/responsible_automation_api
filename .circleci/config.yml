@@ -1,4 +1,5 @@
 version: 2.1
+
 jobs:
   build-and-test:
     docker:
@@ -31,3 +32,9 @@ jobs:
       - run:
           name: Clean up Docker containers
           command: docker-compose down
+
+workflows:
+  version: 2
+  build-and-test:
+    jobs:
+      - build-and-test
