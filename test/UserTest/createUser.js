@@ -15,7 +15,7 @@ async function auth() {
         };
     
         const res = await request
-        .post('createusers?Name=muneeb&Password=12345&Email=mmuneeb221qa1@gmail.com')
+        .post('createusers?Name=muneeb&Password=12345&Email=mmuneeb840@gmail.com')
         .send(TEST_REQUEST)
             res.body.should.containEql(EXPECTED_RESPONSE);
 }
