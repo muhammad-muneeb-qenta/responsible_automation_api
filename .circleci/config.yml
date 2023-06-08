@@ -42,14 +42,14 @@ jobs:
       - run:
           name: Install Dependencies
           command: npm install
-      - run:
-          name: Add PM2 to PATH
-          command: echo 'export PATH=$PATH:/home/circleci/.pm2/bin' >> $BASH_ENV
+      # - run:
+      #     name: Add PM2 to PATH
+      #     command: echo 'export PATH=$PATH:/home/circleci/.pm2/bin' >> $BASH_ENV
 
       # Start the localhost server
       - run:
           name: Start Localhost Server
-          command: npm start
+          command: /home/circleci/.npm-global/bin/pm2 start index.js
       - run:
           name: Build Docker image
           command: |
