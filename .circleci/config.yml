@@ -34,9 +34,13 @@ jobs:
       # # - setup_remote_docker:
       # #     version: 20.10.7
       - run:
-          name: Start LocalHost
-          command: |
-            node index.js .
+          name: Install Dependencies
+          command: npm install
+
+      # Start the localhost server
+      - run:
+          name: Start Localhost Server
+          command: npm start
       - run:
           name: Build Docker image
           command: |
