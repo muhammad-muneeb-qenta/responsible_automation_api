@@ -49,6 +49,10 @@ jobs:
                sleep 5
                export PORT=$(grep -oP '(?<=Server is running on port ).*' server.log)
                echo "Localhost running on port $PORT"
+      - run:
+          name: Run tests in Docker container
+          command: |
+            npm test
       # Start the localhost server
       # - run:
       #     name: Start Localhost Server
