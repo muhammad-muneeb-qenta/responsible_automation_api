@@ -29,6 +29,15 @@ jobs:
       #     name: Waiting for Mongo
       #     command: dockerize -wait tcp://localhost:27017 -timeout 1m
       - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
       # - run:
       #     name: Connect to DB
       #     command:  mongo  --username Admin --password P%40perpl%40ns786 --eval "printjson(db.apikeys.count());" develop
@@ -44,10 +53,12 @@ jobs:
 
       # Start the localhost server
       - run:
-          name: Start Localhost Server
-          command: | 
-                  yar start &
+          name: starting node server
+          command: mkdir logs && yarn start 2>&1 | tee logs/node_server.log
           background: true
+      - run:
+          name: storing local IP address
+          command: node -p "require('ip').address()" > logs/ip.log
     
 
       - run:
@@ -76,9 +87,10 @@ jobs:
  
       - run:
           name: Run tests in Docker container
-          command: |
-            docker run --name myapp-container myapp:latest npm test -- --runInBand
-            docker run --name myapp-container myapp:latest npm test
+          command: yarn test
+          # command: |
+          #   docker run --name myapp-container myapp:latest npm test -- --runInBand
+          #   docker run --name myapp-container myapp:latest npm test
       - run:
           name: Clean up containers
           command: docker stop mongodb my-api && docker rm mongodb mongodb://Admin:P%40perpl%40ns786@192.168.30.11:26004/develop?authSource=admin&readPreference=primary&directConnection=true&ssl=false
