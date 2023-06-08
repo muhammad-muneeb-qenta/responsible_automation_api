@@ -67,7 +67,7 @@ jobs:
       - run:
           name: Start Localhost Server
           command: | 
-                  npm start 
+                  npm start &
                   sleep 10
           background: true
       - run:
