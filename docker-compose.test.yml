@@ -3,7 +3,7 @@ services:
   mongo_db:
     logging:
         driver: none
-    image: "mongo:3.2.17"
+    image: "mongo:5.0.14"
     command: mongod --smallfiles
   localstack:
     image: localstack/localstack:0.12.1
@@ -12,7 +12,7 @@ services:
       - DEBUG=1
     ports:
       - "4566:4566"
-      - "8055:8080"
+      - "27017:27017"
     volumes:
       - ./.localstack:/docker-entrypoint-initaws.d
   server:
@@ -57,7 +57,7 @@ services:
       - localstack
     environment:
       - BASE_URL=http://server
-      - MONGODB_URI=mongodb://mongo_db:27017/integration
+      - MONGODB_URI=mongodb://localhost:27017
       - DELAY=5
       - AWS_SECRET_ACCESS_KEY=fake
       - AWS_ACCESS_KEY_ID=alsofake

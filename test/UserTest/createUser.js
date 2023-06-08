@@ -10,13 +10,12 @@ async function auth() {
             // username: "hussnain.nadeem+nodev@emergenttech.com",
             // password: "@Welcome1234@123"
         };
-        const EXPECTED_RESPONSE = {
-            
+        const EXPECTED_RESPONSE = { 
             "Name": "muneeb"
         };
     
         const res = await request
-        .post('createusers?Name=muneeb&Password=12345&Email=mmuneeb2211@gmail.com')
+        .post('createusers?Name=muneeb&Password=12345&Email=mmuneeb221qa1@gmail.com')
         .send(TEST_REQUEST)
             res.body.should.containEql(EXPECTED_RESPONSE);
 }
