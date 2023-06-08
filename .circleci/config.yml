@@ -51,9 +51,8 @@ jobs:
           background: true
       - run:
           name: Open port for localhost
-          command: |
-                   sudo ufw allow $PORT_NUMBER
-                   sudo ufw status numbered
+          command: docker run -p <port-number>:<port-number> -d myapp:latest
+
       - run:
           name: Build Docker image
           command: |
