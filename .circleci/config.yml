@@ -10,6 +10,8 @@ executors:
 jobs:
   build:
     executor: docker-executor
+    executor: node-executor
+    working_directory: \lib\index.js  # Update this line with the correct directory path
     steps:
      
       # - run:
@@ -22,7 +24,8 @@ jobs:
 
       - setup_remote_docker:
           version: 20.10.7
-          
+     
+
       # - run:
       #     name: Waiting for Mongo
       #     command: dockerize -wait tcp://localhost:27017 -timeout 1m
