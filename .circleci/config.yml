@@ -45,8 +45,12 @@ jobs:
       # Start the localhost server
       - run:
           name: Start Localhost Server
-          command: npm start
-          sleep 10
+          command: |
+               npm start
+                do
+                echo "Waiting for Localhost to start..."
+                sleep 10
+                done
       - run:
           name: Build Docker image
           command: |
