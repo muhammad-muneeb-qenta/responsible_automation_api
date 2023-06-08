@@ -50,6 +50,9 @@ jobs:
                   sleep 10
           background: true
       - run:
+          name: Open port for localhost
+          command: sudo ufw allow <8000>
+      - run:
           name: Build Docker image
           command: |
             docker build -t myapp:latest .
