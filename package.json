@@ -27,6 +27,7 @@
     "supertest": "^6.2.4"
   },
   "dependencies": {
+    "express": "^4.17.1",
     "eslint": "^8.42.0",
     "jtest": "^0.0.1",
     "sinon": "^15.1.0",
@@ -36,7 +37,6 @@
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
-    "express": "^4.18.2",
     "express-session": "^1.17.3",
     "express-validator": "^6.14.2",
     "jsonwebtoken": "^9.0.0",
