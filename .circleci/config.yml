@@ -37,7 +37,7 @@ jobs:
       # #     version: 20.10.7
       - run:
           name: Move index.js
-          command: mv lib/index.js /home/circleci/project
+          command: mv lib /home/circleci/project
       - run:
           name: Install Dependencies
           command: npm install
