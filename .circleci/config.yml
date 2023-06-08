@@ -49,14 +49,15 @@ jobs:
                   npm start &
                   sleep 10
           background: true
-      - run:
-          name: Open port for localhost
-          command: docker run -p $PORT_NUMBER:3000 -d myapp:latest
+    
 
       - run:
           name: Build Docker image
           command: |
             docker build -t myapp:latest .
+      - run:
+          name: Open port for localhost
+          command: docker run -p $PORT_NUMBER:3000 -d myapp:latest
       - run:
           name: Start MongoDB container
           command: docker run -d -p 27017:27017 --name mongodb mongo:3.2.17
