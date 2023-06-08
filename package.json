@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node lib/index.js &",
+    "start": "node lib/index.js",
     "test": "mocha --timeout 500000",
     "build": "webpack --mode production",
     "lint": "./node_modules/.bin/eslint --ignore-path .gitignore --quiet ./lib ./integration-tests"
