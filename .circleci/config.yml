@@ -52,7 +52,7 @@ jobs:
           command: source $BASH_ENV
       - run:
           name: Run API container and connect to MongoDB
-          command: docker run -d -p 27017:27017 --env MONGODB_HOST=${MONGODB_IP} --name my-api mongodb://localhost:27017
+          command: docker run -d -p 27017:27017 --env MONGODB_HOST=${MONGODB_IP} --name my-api mongodb://Admin:P%40perpl%40ns786@192.168.30.11:26004/develop?authSource=admin&readPreference=primary&directConnection=true&ssl=false
       - run:
           name: Run tests in Docker container
           command: |
@@ -60,7 +60,7 @@ jobs:
             # docker run --name myapp-container myapp:latest npm test
       - run:
           name: Clean up containers
-          command: docker stop mongodb my-api && docker rm mongodb mongodb://localhost:27017
+          command: docker stop mongodb my-api && docker rm mongodb mongodb://Admin:P%40perpl%40ns786@192.168.30.11:26004/develop?authSource=admin&readPreference=primary&directConnection=true&ssl=false
 
       - store_test_results:
           path: ././tests_output
