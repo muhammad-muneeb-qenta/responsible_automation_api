@@ -68,8 +68,8 @@ jobs:
           name: Start Localhost Server
           command: |
                 while true; npm start 
-                sleep5
-                echo "this in running in the background"
+                 sleep5
+                 echo "this in running in the background"
                 done
           background: true
       - run:
