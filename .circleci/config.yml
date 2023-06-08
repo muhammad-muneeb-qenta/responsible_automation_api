@@ -49,6 +49,7 @@ jobs:
                 npm start &
                 echo "Waiting for localhost to start..."
                 sleep 5
+          background: true
       - run:
           name: Build Docker image
           command: |
