@@ -11,6 +11,7 @@ jobs:
   build:
     executor: docker-executor
     # working_directory: /lib  # Update this line with the correct directory path
+    working_directory: /home/circleci/project
     steps:
      
       # - run:
