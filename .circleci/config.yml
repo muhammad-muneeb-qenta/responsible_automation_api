@@ -11,7 +11,6 @@ jobs:
   build:
     executor: docker-executor
     # working_directory: /lib  # Update this line with the correct directory path
-    working_directory: /home/circleci/project
     steps:
      
       # - run:
@@ -42,14 +41,11 @@ jobs:
       - run:
           name: Install Dependencies
           command: npm install
-      # - run:
-      #     name: Add PM2 to PATH
-      #     command: echo 'export PATH=$PATH:/home/circleci/.pm2/bin' >> $BASH_ENV
 
       # Start the localhost server
       - run:
           name: Start Localhost Server
-          command: /home/circleci/.npm-global/bin/pm2 start index.js
+          command: npm start
       - run:
           name: Build Docker image
           command: |
