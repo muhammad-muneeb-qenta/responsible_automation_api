@@ -41,7 +41,9 @@ jobs:
       - run:
           name: Install Dependencies
           command: npm install
-
+      - run:
+          name: Add PM2 to PATH
+          command: export PATH=$PATH:/home/circleci/.npm-global/bin
       # Start the localhost server
       - run:
           name: Start Localhost Server
