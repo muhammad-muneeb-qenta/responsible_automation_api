@@ -87,7 +87,7 @@ jobs:
  
       - run:
           name: Run tests in Docker container
-          command: yarn test
+          command: npm test
           # command: |
           #   docker run --name myapp-container myapp:latest npm test -- --runInBand
           #   docker run --name myapp-container myapp:latest npm test
