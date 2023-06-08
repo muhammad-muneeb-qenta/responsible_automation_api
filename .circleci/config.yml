@@ -42,37 +42,49 @@ jobs:
           name: Install Dependencies
           command: npm install
 
+      - run:
+          name: Start localhost
+          command: npm start &
+          background: true
+
+      - run:
+          name: Wait for localhost to start
+          command: |
+            until nc -z localhost 3000; do
+              echo "Waiting for localhost to start..."
+              sleep 2
+            done
       # Start the localhost server
-      - run:
-          name: Start Localhost Server
-          command: |
-                npm start &
-                echo "Waiting for localhost to start..."
-                sleep 10
-      - run:
-          name: Build Docker image
-          command: |
-            docker build -t myapp:latest .
-      - run:
-          name: Start MongoDB container
-          command: docker run -d -p 27017:27017 --name mongodb mongo:3.2.17
-      # Wait for MongoDB container to be ready
-      - run:
-          name: Wait for MongoDB container
-          command: docker exec mongodb mongo --eval "printjson(db)"
-      - run:
-          name: Get MongoDB container IP
-          command: echo "export MONGODB_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mongodb)" >> $BASH_ENV
-      - run:
-          name: Load environment variables
-          command: source $BASH_ENV
-      - run:
-          name: Run API container and connect to MongoDB
-          command: docker run -d -p 27017:27017 --env MONGODB_HOST=${MONGODB_IP} --name my-api mongodb://Admin:P%40perpl%40ns786@192.168.30.11:26004/develop?authSource=admin&readPreference=primary&directConnection=true&ssl=false
-      - run:
-          name: Run tests in Docker container
-          command: |
-            npm test
+      # - run:
+      #     name: Start Localhost Server
+      #     command: |
+      #           npm start &
+      #           echo "Waiting for localhost to start..."
+      #           sleep 10
+      # - run:
+      #     name: Build Docker image
+      #     command: |
+      #       docker build -t myapp:latest .
+      # - run:
+      #     name: Start MongoDB container
+      #     command: docker run -d -p 27017:27017 --name mongodb mongo:3.2.17
+      # # Wait for MongoDB container to be ready
+      # - run:
+      #     name: Wait for MongoDB container
+      #     command: docker exec mongodb mongo --eval "printjson(db)"
+      # - run:
+      #     name: Get MongoDB container IP
+      #     command: echo "export MONGODB_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mongodb)" >> $BASH_ENV
+      # - run:
+      #     name: Load environment variables
+      #     command: source $BASH_ENV
+      # - run:
+      #     name: Run API container and connect to MongoDB
+      #     command: docker run -d -p 27017:27017 --env MONGODB_HOST=${MONGODB_IP} --name my-api mongodb://Admin:P%40perpl%40ns786@192.168.30.11:26004/develop?authSource=admin&readPreference=primary&directConnection=true&ssl=false
+      # - run:
+      #     name: Run tests in Docker container
+      #     command: |
+      #       npm test
             # docker run --name myapp-container myapp:latest npm test -- --runInBand
             # docker run --name myapp-container myapp:latest npm test
       - run:
