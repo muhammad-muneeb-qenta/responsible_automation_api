@@ -9,8 +9,7 @@ executors:
         #   - MONGODB_PASSWORD: P%40perpl%40ns786
 jobs:
   build:
-    # executor: docker-executor
-    executor: node-executor
+    executor: docker-executor
     working_directory: \lib\index.js  # Update this line with the correct directory path
     steps:
      
