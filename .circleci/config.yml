@@ -10,7 +10,7 @@ executors:
 jobs:
   build:
     executor: docker-executor
-    working_directory: /lib  # Update this line with the correct directory path
+    # working_directory: /lib  # Update this line with the correct directory path
     steps:
      
       # - run:
@@ -35,6 +35,9 @@ jobs:
       #     # command: "mongodb && mongo --eval 'db.createUser({ user: "Admin", pwd: "P%40perpl%40ns786", roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] })'
       # # - setup_remote_docker:
       # #     version: 20.10.7
+      - run:
+          name: Move index.js
+          command: mv index.js /home/circleci/project
       - run:
           name: Install Dependencies
           command: npm install
