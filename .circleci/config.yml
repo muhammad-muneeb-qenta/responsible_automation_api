@@ -43,7 +43,12 @@ jobs:
           command: npm install
 
       # Start the localhost server
-  
+      - run:
+          name: Start Localhost Server
+          command: | 
+                  npm start &
+                  sleep 10
+          background: true
       - run:
           name: Build Docker image
           command: |
@@ -64,12 +69,7 @@ jobs:
       - run:
           name: Run API container and connect to MongoDB
           command: docker run -d -p 27017:27017 --env MONGODB_HOST=${MONGODB_IP} --name my-api mongodb://Admin:P%40perpl%40ns786@192.168.30.11:26004/develop?authSource=admin&readPreference=primary&directConnection=true&ssl=false
-      - run:
-          name: Start Localhost Server
-          command: | 
-                  npm start &
-                  sleep 10
-          background: true
+ 
       - run:
           name: Run tests in Docker container
           command: |
