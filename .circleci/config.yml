@@ -51,7 +51,7 @@ jobs:
 
       - run:
           name: waiting for node server to start
-          command: wget --retry-connrefused --waitretry=2 -t 5 "http://$(cat logs/ip.log):3000" > /dev/null
+          command: wget --retry-connrefused --waitretry=2 -t 5 "http://$(cat logs/ip.log):8000" > /dev/null
 
       - run:
           name: running tests
