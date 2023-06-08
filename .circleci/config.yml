@@ -51,7 +51,7 @@ jobs:
           background: true
       - run:
           name: Open port for localhost
-          command: docker run -p <port-number>:<port-number> -d myapp:latest
+          command: docker run -p <port-number>:<3000> -d myapp:latest
 
       - run:
           name: Build Docker image
