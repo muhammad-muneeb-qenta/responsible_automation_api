@@ -45,17 +45,10 @@ jobs:
       - run:
           name: Start localhost
           command: |
-                  npm start &
-                  echo "Waiting for localhost to start..."
-                  sleep 10
-
-      - run:
-          name: Wait for localhost to start
-          command: |
-            until nc -z localhost 3000; do
-              echo "Waiting for localhost to start..."
-              sleep 2
-            done
+               npm start > server.log 2>&1 &
+               sleep 5
+               export PORT=$(grep -oP '(?<=Server is running on port ).*' server.log)
+               echo "Localhost running on port $PORT"
       # Start the localhost server
       # - run:
       #     name: Start Localhost Server
