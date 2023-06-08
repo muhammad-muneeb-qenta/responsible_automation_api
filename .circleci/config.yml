@@ -39,7 +39,7 @@ jobs:
             docker build -t myapp:latest .
       - run:
           name: Start MongoDB container
-          command: docker run -d -p 27017:27017 --name mongodb mongo:5.0.14 
+          command: docker run -d -p 27017:27017 --name mongodb mongo:3.2.17
       # Wait for MongoDB container to be ready
       - run:
           name: Wait for MongoDB container
