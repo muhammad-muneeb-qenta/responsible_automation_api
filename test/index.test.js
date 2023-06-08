@@ -1,8 +1,11 @@
 // // // Tests of Auth
 // require('./auth/index.test.js');
 
+// // // Tests for GET User
+// require('./users/index.test.js');
+
 // // Tests for GET User
-require('./users/index.test.js');
+require('./UserTest/index.test.js');
 
 // // // Tests for GET Report EndPoint
 // require('./reports/index.test.js');

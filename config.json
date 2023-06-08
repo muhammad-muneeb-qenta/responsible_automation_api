@@ -1,3 +1,4 @@
 {
-  "BASE_URL" : "https://api.dev.gmint.io/scr/api"
+  "BASE_URL" : "https://api.dev.gmint.io/scr/api",
+  "LOCAL_URL" : "http://localhost:8000/"
 }
