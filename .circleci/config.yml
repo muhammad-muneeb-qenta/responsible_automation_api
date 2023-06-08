@@ -43,7 +43,8 @@ jobs:
           command: npm install
       - run:
           name: Add PM2 to PATH
-          command: export PATH=$PATH:/home/circleci/.npm-global/bin
+          command: echo 'export PATH=$PATH:/home/circleci/.pm2/bin' >> $BASH_ENV
+
       # Start the localhost server
       - run:
           name: Start Localhost Server
