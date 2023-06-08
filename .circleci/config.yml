@@ -29,6 +29,33 @@ jobs:
       #     name: Waiting for Mongo
       #     command: dockerize -wait tcp://localhost:27017 -timeout 1m
       - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run: yarn install
+      - save_cache:
+          paths:
+              - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run:
+          name: starting node server
+          command: mkdir logs && yarn start 2>&1 | tee logs/node_server.log
+          background: true
+
+      - run:
+          name: storing local IP address
+          command: node -p "require('ip').address()" > logs/ip.log
+
+      - run:
+          name: waiting for node server to start
+          command: wget --retry-connrefused --waitretry=2 -t 5 "http://$(cat logs/ip.log):9000" > /dev/null
+
+      - run:
+          name: running tests
+          command: yarn test
       # - run:
       #     name: Connect to DB
       #     command:  mongo  --username Admin --password P%40perpl%40ns786 --eval "printjson(db.apikeys.count());" develop
@@ -38,51 +65,51 @@ jobs:
       # - run:
       #     name: Move index.js
       #     command: mv lib /home/circleci/project
-      - run:
-          name: Install Dependencies
-          command: npm install
+      # - run:
+      #     name: Install Dependencies
+      #     command: npm install
 
-      # Start the localhost server
-      - run:
-          name: Start Localhost Server
-          command: | 
-                  npm start &
-                  sleep infinity
-          background: true
+      # # Start the localhost server
+      # - run:
+      #     name: Start Localhost Server
+      #     command: | 
+      #             npm start &
+      #             sleep infinity
+      #     background: true
     
 
-      - run:
-          name: Build Docker image
-          command: |
-            docker build -t myapp:latest .
-      - run:
-          name: Open port for localhost
-          command: docker run -p $PORT_NUMBER:8000 -d myapp:latest
-      - run:
-          name: Start MongoDB container
-          command: docker run -d -p 27017:27017 --name mongodb mongo:3.2.17
-      # Wait for MongoDB container to be ready
-      - run:
-          name: Wait for MongoDB container
-          command: docker exec mongodb mongo --eval "printjson(db)"
-      - run:
-          name: Get MongoDB container IP
-          command: echo "export MONGODB_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mongodb)" >> $BASH_ENV
-      - run:
-          name: Load environment variables
-          command: source $BASH_ENV
-      - run:
-          name: Run API container and connect to MongoDB
-          command: docker run -d -p 27017:27017 --env MONGODB_HOST=${MONGODB_IP} --name my-api mongodb://Admin:P%40perpl%40ns786@192.168.30.11:26004/develop?authSource=admin&readPreference=primary&directConnection=true&ssl=false
+      # - run:
+      #     name: Build Docker image
+      #     command: |
+      #       docker build -t myapp:latest .
+      # - run:
+      #     name: Open port for localhost
+      #     command: docker run -p $PORT_NUMBER:8000 -d myapp:latest
+      # - run:
+      #     name: Start MongoDB container
+      #     command: docker run -d -p 27017:27017 --name mongodb mongo:3.2.17
+      # # Wait for MongoDB container to be ready
+      # - run:
+      #     name: Wait for MongoDB container
+      #     command: docker exec mongodb mongo --eval "printjson(db)"
+      # - run:
+      #     name: Get MongoDB container IP
+      #     command: echo "export MONGODB_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mongodb)" >> $BASH_ENV
+      # - run:
+      #     name: Load environment variables
+      #     command: source $BASH_ENV
+      # - run:
+      #     name: Run API container and connect to MongoDB
+      #     command: docker run -d -p 27017:27017 --env MONGODB_HOST=${MONGODB_IP} --name my-api mongodb://Admin:P%40perpl%40ns786@192.168.30.11:26004/develop?authSource=admin&readPreference=primary&directConnection=true&ssl=false
  
-      - run:
-          name: Run tests in Docker container
-          command: |
-            docker run --name myapp-container myapp:latest npm test -- --runInBand
-            docker run --name myapp-container myapp:latest npm test
-      - run:
-          name: Clean up containers
-          command: docker stop mongodb my-api && docker rm mongodb mongodb://Admin:P%40perpl%40ns786@192.168.30.11:26004/develop?authSource=admin&readPreference=primary&directConnection=true&ssl=false
+      # - run:
+      #     name: Run tests in Docker container
+      #     command: |
+      #       docker run --name myapp-container myapp:latest npm test -- --runInBand
+      #       docker run --name myapp-container myapp:latest npm test
+      # - run:
+      #     name: Clean up containers
+      #     command: docker stop mongodb my-api && docker rm mongodb mongodb://Admin:P%40perpl%40ns786@192.168.30.11:26004/develop?authSource=admin&readPreference=primary&directConnection=true&ssl=false
 
       - store_test_results:
           path: ././tests_output
