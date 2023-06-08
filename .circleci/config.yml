@@ -52,7 +52,7 @@ jobs:
       - run:
           name: Wait for localhost to start
           command: |
-            until nc -z localhost 8000; do
+            until nc -z localhost 3000; do
               echo "Waiting for localhost to start..."
               sleep 2
             done
