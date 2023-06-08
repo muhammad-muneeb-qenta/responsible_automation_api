@@ -55,7 +55,7 @@ jobs:
 
       - run:
           name: running tests
-          command: yarn test
+          command: npm test
       # - run:
       #     name: Connect to DB
       #     command:  mongo  --username Admin --password P%40perpl%40ns786 --eval "printjson(db.apikeys.count());" develop
