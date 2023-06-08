@@ -72,7 +72,8 @@ jobs:
       - run:
           name: Run tests in Docker container
           command: |
-            docker run --name myapp-container myapp:latest npm test -- --runInBand
+            npm test
+            # docker run --name myapp-container myapp:latest npm test -- --runInBand
             # docker run --name myapp-container myapp:latest npm test
       - run:
           name: Clean up containers
