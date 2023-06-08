@@ -52,7 +52,7 @@ jobs:
       - run:
           name: Open port for localhost
           command: |
-                   sudo ufw allow <port-number>
+                   sudo ufw allow $PORT_NUMBER
                    sudo ufw status numbered
       - run:
           name: Build Docker image
