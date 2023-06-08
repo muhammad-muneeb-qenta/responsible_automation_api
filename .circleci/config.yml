@@ -3,10 +3,10 @@ executors:
   docker-executor:
     docker:
       - image: circleci/node:6-browsers
-      - image: mongo:3.2.17
-        environment:
-          - MONGODB_USERNAME: Admin
-          - MONGODB_PASSWORD: P%40perpl%40ns786
+      - image: mongo:5.0.14
+        # environment:
+        #   - MONGODB_USERNAME: Admin
+        #   - MONGODB_PASSWORD: P%40perpl%40ns786
 jobs:
   build:
     executor: docker-executor
