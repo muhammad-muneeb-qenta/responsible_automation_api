@@ -35,11 +35,8 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: yarn install
-      - save_cache:
-          paths:
-              - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+      # - run: yarn install
+      
       # - run:
       #     name: starting node server
       #     command: mkdir logs && yarn start 2>&1 | tee logs/node_server.log
@@ -68,7 +65,10 @@ jobs:
       - run:
           name: Install Dependencies
           command: npm install
-
+      - save_cache:
+          paths:
+              - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
       # Start the localhost server
       - run:
           name: starting node server
