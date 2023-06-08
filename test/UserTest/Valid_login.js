@@ -16,7 +16,7 @@ async function auth() {
         };
     
         const res = await request
-        .post('login?Email=mmuneeb21@gmail.com&Password=1234')
+        .post('login?Email=mmuneeb840@gmail.com&Password=1234')
         .send(TEST_REQUEST)
             res.body.should.containEql(EXPECTED_RESPONSE);
 }
