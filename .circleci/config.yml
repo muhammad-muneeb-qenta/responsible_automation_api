@@ -46,6 +46,7 @@ jobs:
       - run:
           name: Start Localhost Server
           command: npm start
+          sleep 10
       - run:
           name: Build Docker image
           command: |
